@@ -1,0 +1,83 @@
+<div class="h-screen bg-gradient-to-b from-green-100 to-brand-turquoise">
+  <div class="p-4">
+    <div class="flex items-center justify-between gap-6">
+      <img src="../assets/venture-miner-logo.png" class="w-32 bg-wite" />
+      <div class="flex flex-row items-center gap-4 text-sm">
+        <span
+          class="p-4 font-bold text-white rounded bg-brand-turquoise"
+          *ngIf="currentChainId()"
+          >Network ID {{ currentChainId() }}</span
+        >
+        <span
+          class="p-4 font-bold text-white break-all rounded bg-brand-turquoise"
+          *ngIf="currentAccount()"
+          >{{ currentAccount() }}</span
+        >
+        <span
+          class="p-4 font-bold text-white break-all rounded bg-brand-turquoise"
+          *ngIf="balance()"
+          >{{ balance() }}</span
+        >
+        <span
+          class="p-4 font-bold text-white break-all rounded cursor-pointer bg-brand-turquoise"
+          *ngIf="hasMetamask && !currentAccount()"
+          (click)="connectWallet()"
+          >CONNECT WALLET</span
+        >
+        <span
+          class="p-4 font-bold text-white rounded bg-brand-yellow"
+          *ngIf="!hasMetamask"
+          >PLEASE INSTALL METAMASK</span
+        >
+      </div>
+    </div>
+    <table
+      class="text-brand-turquoise font-bold rounded bg-white break-all mt-10 w-full"
+      *ngIf="tokenBalances.length"
+    >
+      <thead class="bg-brand-turquoise bg-opacity-10">
+        <tr>
+          <th class="px-6 py-4">Contract Address</th>
+          <th class="px-6 py-4">Token Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let tokenBalance of tokenBalances">
+          <tr class="border-b last:border-b-0">
+            <td class="px-6 py-4">
+              {{ tokenBalance.contractAddress }}
+            </td>
+            <td class="px-6 py-4">
+              {{ tokenBalance.tokenBalance }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <div
+      class="rounded bg-white mt-10 p-4 flex flex-col gap-4"
+      *ngIf="currentAccount()"
+    >
+      <span class="font-bold text-brand-turquoise text-lg">Sign Message</span>
+      <input
+        type="text"
+        class="p-3 border border-brand-turquoise rounded focus:outline-none"
+        [formControl]="message"
+      />
+      <button
+        class="p-2 font-bold text-white rounded bg-brand-turquoise"
+        [disabled]="message.invalid"
+        [ngClass]="{ 'opacity-50': message.invalid }"
+        (click)="signMessage()"
+      >
+        Sign
+      </button>
+      <div class="flex gap-4" *ngFor="let signature of signatures">
+        <span class="shrink-0">Signature 👉</span>
+        <span class="text-brand-turquoise break-all font-bold">{{
+          signature
+        }}</span>
+      </div>
+    </div>
+  </div>
+</div>
