@@ -54,30 +54,10 @@
         </ng-container>
       </tbody>
     </table>
-    <div
-      class="rounded bg-white mt-10 p-4 flex flex-col gap-4"
-      *ngIf="currentAccount()"
-    >
-      <span class="font-bold text-brand-turquoise text-lg">Sign Message</span>
-      <input
-        type="text"
-        class="p-3 border border-brand-turquoise rounded focus:outline-none"
-        [formControl]="message"
-      />
-      <button
-        class="p-2 font-bold text-white rounded bg-brand-turquoise"
-        [disabled]="message.invalid"
-        [ngClass]="{ 'opacity-50': message.invalid }"
-        (click)="signMessage()"
-      >
-        Sign
-      </button>
-      <div class="flex gap-4" *ngFor="let signature of signatures">
-        <span class="shrink-0">Signature 👉</span>
-        <span class="text-brand-turquoise break-all font-bold">{{
-          signature
-        }}</span>
-      </div>
-    </div>
   </div>
+  proposal: {{ this.proposal }}
+  <br/>
+  address: {{ contractAddress }}
 </div>
+
+
