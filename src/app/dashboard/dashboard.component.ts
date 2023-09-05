@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
 
+  // from moongoose
+  liveProposals: any;
+  previousProposals: any 
+
 }
