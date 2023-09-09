@@ -24,25 +24,26 @@ export class ProposalsComponent implements OnInit {
   }
 
   getOpenProposals(): void {
-    this.apiService.getOpenProposals().subscribe(
-      (response) => {
+    this.apiService.getOpenProposals().subscribe({
+      next: (response) => {
         this.openProposals = response;
+        console.log(response); // This will log the data received from the API
+        console.log(response[0]); // You can access elements if 'data' is an array
       },
-      (error) => {
+      error: (error) => {
         console.error('Error fetching open proposals:', error);
       }
-    );
+    });
   }
-
   getEndedProposals(): void {
-    this.apiService.getEndedProposals().subscribe(
-      (response) => {
+    this.apiService.getEndedProposals().subscribe({
+      next: (response) => {
         this.endedProposals = response;
       },
-      (error) => {
+      error: (error) =>  {
         console.error('Error fetching ended proposals:', error);
       }
-    );
+    });
   }
 }
 

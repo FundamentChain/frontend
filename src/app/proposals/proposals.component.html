@@ -1,90 +1,58 @@
+
 <div class="m-auto">
     <div class="p-10 text-2xl font-bold">
         Proposals
     </div>
+    
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10">
-
-        {{ openProposals }}
-        {{ endedProposals }}
-        <div class="bg-white p-4 shadow-md">
+        <!-- Loop through openProposals -->
+        <div *ngFor="let proposal of openProposals" class="bg-white p-4 shadow-md">
             <img src="../../assets/hospital.jpg" alt="Product 1" class="w-full h-auto">
             <div class="flex">
                 <div class="w-1/2 p-4">
-                    <p class="text-xl font-semibold mt-2">Proposal 1</p>
-                </div>
-                <div class="w-1/2 p-4">
-                    <p class="text-xl mt-2">1 000 000 Matic</p>
+                    <p class="text-xl font-semibold mt-2 text-center">{{ proposal.title }}</p>
+                    <div class="attribute">
+                        <p class="label">Description:</p>
+                        <p class="value">{{ proposal.description }}</p>
+                    </div>
+                    <div class="attribute">
+                        <p class="label">Receiver Address:</p>
+                        <p class="value">{{ proposal.receiverAddress }}</p>
+                    </div>
+                    <div class="attribute">
+                        <p class="label">Amount Requested:</p>
+                        <p class="value">{{ proposal.amountRequested }}</p>
+                    </div>
                 </div>
             </div>
             <a routerLink="/proposal-details" class="block text-center py-5 bg-gray-500">
                 <b class="text-white">View Proposal</b>
             </a>
         </div>
-
-        <div class="bg-white p-4 shadow-md">
+    
+        <!-- Loop through endedProposals -->
+        <div *ngFor="let proposal of endedProposals" class="bg-white p-4 shadow-md">
             <img src="../../assets/hospital.jpg" alt="Product 1" class="w-full h-auto">
             <div class="flex">
                 <div class="w-1/2 p-4">
-                    <p class="text-xl font-semibold mt-2">Proposal 1</p>
-                </div>
-                <div class="w-1/2 p-4">
-                    <p class="text-xl mt-2">1 000 000 Matic</p>
+                    <p class="text-xl font-semibold mt-2 text-center">{{ proposal.title }}</p>
+                    <div class="attribute">
+                        <p class="label">Description:</p>
+                        <p class="value">{{ proposal.description }}</p>
+                    </div>
+                    <div class="attribute">
+                        <p class="label">Receiver Address:</p>
+                        <p class="value">{{ proposal.receiverAddress }}</p>
+                    </div>
+                    <div class="attribute">
+                        <p class="label">Amount Requested:</p>
+                        <p class="value">{{ proposal.amountRequested }}</p>
+                    </div>
                 </div>
             </div>
             <a routerLink="/proposal-details" class="block text-center py-5 bg-gray-500">
                 <b class="text-white">View Proposal</b>
             </a>
         </div>
-
-
-        <div class="bg-white p-4 shadow-md">
-            <img src="../../assets/hospital.jpg" alt="Product 1" class="w-full h-auto">
-            <div class="flex">
-                <div class="w-1/2 p-4">
-                    <p class="text-xl font-semibold mt-2">Proposal 1</p>
-                </div>
-                <div class="w-1/2 p-4">
-                    <p class="text-xl mt-2">1 000 000 Matic</p>
-                </div>
-            </div>
-            <a routerLink="/proposal-details" class="block text-center py-5 bg-gray-500">
-                <b class="text-white">View Proposal</b>
-            </a>
-        </div>
-
-
-        <div class="bg-white p-4 shadow-md">
-            <img src="../../assets/hospital.jpg" alt="Product 1" class="w-full h-auto">
-            <div class="flex">
-                <div class="w-1/2 p-4">
-                    <p class="text-xl font-semibold mt-2">Proposal 1</p>
-                </div>
-                <div class="w-1/2 p-4">
-                    <p class="text-xl mt-2">1 000 000 Matic</p>
-                </div>
-            </div>
-            <a routerLink="/proposal-details" class="block text-center py-5 bg-gray-500">
-                <b class="text-white">View Proposal</b>
-            </a>
-        </div>
-
-
-        <div class="bg-white p-4 shadow-md">
-            <img src="../../assets/hospital.jpg" alt="Product 1" class="w-full h-auto">
-            <div class="flex">
-                <div class="w-1/2 p-4">
-                    <p class="text-xl font-semibold mt-2">Proposal 1</p>
-                </div>
-                <div class="w-1/2 p-4">
-                    <p class="text-xl mt-2">1 000 000 Matic</p>
-                </div>
-            </div>
-            <a routerLink="/proposal-details" class="block text-center py-5 bg-gray-500">
-                <b class="text-white">View Proposal</b>
-            </a>
-        </div>
-
     </div>
 </div>
-  
- 

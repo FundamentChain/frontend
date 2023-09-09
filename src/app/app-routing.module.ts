@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PerfilComponent } from './perfil/perfil.component';
 import { ProposalsComponent } from './proposals/proposals.component';
 import { CreateProposalComponent } from './create-proposal/create-proposal.component';
-import { ProposalDetailsComponent } from './proposal-details/proposal-details.component';
+import { ProposalDetailsComponent } from './proposal-page/proposal-details.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TrackingComponent } from './tracking/tracking.component';
 
