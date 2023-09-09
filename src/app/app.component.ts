@@ -3,6 +3,7 @@ import { AlchemyService } from './services/alchemy.service';
 import { Component, effect } from '@angular/core';
 import { TokenBalance } from 'alchemy-sdk';
 import { ethers } from 'ethers';
+import { HttpClient } from '@angular/common/http';
 
 
 const abi =  [{
@@ -369,9 +370,13 @@ export class AppComponent {
   balance = this.metamaskService.balance;
   tokenBalances: TokenBalance[] = [];
   proposal: any;
+  user: any;
   hasMetamask;
 
+  private apiUrl = 'http://localhost:3000/api';
+
   constructor(
+    private http: HttpClient,
     private metamaskService: MetamaskService,
     private alchemyService: AlchemyService
   ) {
@@ -386,8 +391,13 @@ export class AppComponent {
         );
       }
     });
-  }
 
+    effect(async () => {
+      if (this.currentAccount()) {
+        this.user = this.getUser(this.currentAccount())
+      }
+    });
+  }
 
   ngOnInit() {
   }
@@ -401,11 +411,12 @@ export class AppComponent {
       
       if (!existsInDB) {
          this.metamaskService.createProfileForWallet(account);
-        // Handle what to do after creating the profile, maybe notify the user or redirect them
       }
-      
-      // Logic for when the wallet exists in the database (like loading user data or redirecting)
     }
+  }
+
+  getUser(address: string) {
+    return this.http.get<any>(`${this.apiUrl}/user/${address}`);
   }
 
 }

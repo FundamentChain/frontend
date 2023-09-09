@@ -360,14 +360,13 @@ export class ContractServiceService {
   proposal: any;
   campaignCreator: any;
 
-  contract = new ethers.Contract("0x92D001feCB274E5c5578BaBe9358c688C97d1aDd", abi)
+  contract = new ethers.Contract("0x92D001feCB274E5c5578BaBe9358c688C97d1aDd", abi, this.signer);
 
   constructor (
     private metamaskService: MetamaskService,
     private alchemyService: AlchemyService) {
 
       effect(async () => {
-        alert(await this.viewFunction())
         this.campaignCreator = await this.viewFunction()
       });
   }
@@ -386,14 +385,13 @@ export class ContractServiceService {
 
     try {
       const tx = await this.contract.createCampaign(
-        reciever,
+        this.signer.getAddress(),
         "",
         amountNumber,
         timestampNumber
       );
-      alert("tx created")
+      alert("fdsg")
       await tx.wait();
-      alert(tx.hash)
       return tx.hash; 
     }
 
@@ -404,7 +402,6 @@ export class ContractServiceService {
   }
 
   async viewFunction() {
-    alert(await this.contract.CAMPAIGN_CREATOR())
     return await this.contract.CAMPAIGN_CREATOR()
   }
 
