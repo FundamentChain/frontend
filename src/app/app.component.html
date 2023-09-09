@@ -88,10 +88,10 @@
             </a>
         </li>
         </ul>
-
-        <a routerLink="/create-proposal" class="block text-center py-5 m-10 bg-gray-500">
+        <a *ngIf="hasKyc" routerLink="/create-proposal" class="block text-center py-5 m-10 bg-gray-500">
           <b class="text-white">Create Proposal</b>
         </a>
+      
   
         <div class="flex justify-center mt-20">
           <div class="bg-gray-500 items-center rounded-full h-[20vh] w-[20vh]">
