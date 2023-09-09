@@ -17,8 +17,8 @@ export class ContractServiceService {
   balance = this.metamaskService.balance;
   hasRole: boolean = false;
 
-  contract = new ethers.Contract("0x92D001feCB274E5c5578BaBe9358c688C97d1aDd", donationPlatform.abi, this.signer);
-  proposalContract = new ethers.Contract("0x92D001feCB274E5c5578BaBe9358c688C97d1aDd", donationContract.abi, this.signer);
+  platformContract = new ethers.Contract("0x92D001feCB274E5c5578BaBe9358c688C97d1aDd", donationPlatform.abi, this.signer);
+  proposalContract = new ethers.Contract("", donationContract.abi, this.signer);
 
   constructor (
     private metamaskService: MetamaskService,
@@ -26,12 +26,12 @@ export class ContractServiceService {
 
       effect(async () => {
         // try 
-        const campaignCreator =  await this.contract.CAMPAIGN_CREATOR()
-        this.hasRole = await this.contract.hasRole(campaignCreator, this.signer._address);
+        const campaignCreator =  await this.platformContract.CAMPAIGN_CREATOR()
+        this.hasRole = await this.platformContract.hasRole(campaignCreator, this.signer._address);
       });
   }
 
-  async createProposal(
+  async createProposal( // GA
     proposalName: string,
     amountRequested: string,
     timestamp: string,
@@ -44,13 +44,12 @@ export class ContractServiceService {
     const timestampNumber = Number(timestamp)
 
     try {
-      const tx = await this.contract.createCampaign(
+      const tx = await this.platformContract.createCampaign(
         this.signer.getAddress(),
         "",
         amountNumber,
         timestampNumber
       );
-      alert("fdsg")
       await tx.wait();
       return tx.hash; 
     }
@@ -61,10 +60,23 @@ export class ContractServiceService {
     }
   }
 
-  async updateBalance(proposalAddress: string): Promise<number | string> {
+  async updateBalance(proposalAddress: string): Promise<number | string> { // RS
     try {
       const missingBalance = await this.proposalContract.attach(proposalAddress).missingBalanceToTarget();
       return missingBalance;
+    }
+    catch {
+        alert("Error occured during the transaction! Confirm input")
+        return "Error"
+    }
+  }
+
+  // donate - RS
+  async donate(proposalAddress: string, amount: number): Promise<string> { // RS
+    try {
+      const tx = await this.proposalContract.attach(proposalAddress).donate(amount);
+      await tx.wait();
+      return tx.hash
     }
     catch {
         alert("Error occured during the transaction! Confirm input")
