@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { ProposalsComponent } from './proposals/proposals.component';
 import { CreateProposalComponent } from './create-proposal/create-proposal.component';
-import { ProposalDetailsComponent } from './proposal-page/proposal-details.component';
+import { ProposalDetailsComponent } from './proposal-details/proposal-details.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TrackingComponent } from './tracking/tracking.component';
