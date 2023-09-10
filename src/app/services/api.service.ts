@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { MetamaskService } from './metamask.service';
+import { User } from './user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +10,8 @@ import { Observable } from 'rxjs';
 export class ApiService {
   private apiUrl = 'http://localhost:3000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private metamasService : MetamaskService) {}
 
   getOpenProposals(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/proposals/live_proposals`);
@@ -21,5 +24,12 @@ export class ApiService {
   getProposalDetail(address: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/proposals/${address}`);
   }
+
+    //---USER--------
+  
+    getUserByWallet(): Observable<User> {
+      alert(`${this.apiUrl}/users/${this.metamasService.currentAccount()}`);
+      return this.http.get<User>(`${this.apiUrl}/users/${this.metamasService.currentAccount()}`);
+    }
 
 }
