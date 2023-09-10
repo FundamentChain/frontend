@@ -20,7 +20,7 @@ export class PerfilComponent implements OnInit {
     this.apiService.getUserByWallet().subscribe({
       next: (data) => {
         this.user = data;
-        alert(data); // This will log the data received from the API
+        console.log(data); // This will log the data received from the API
          // You can access elements if 'data' is an array
       },
       error: (error) => {
