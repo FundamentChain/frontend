@@ -1,31 +1,45 @@
-<div class="bg-white">
-  <div class="p-4 bg-gray-400">
+<style>
+  .container_70 {
+    width: 60%;
+    margin-left: 10%;
+  }
+
+  .bg-custom-image {
+    background-image: url('https://img.freepik.com/vetores-gratis/ilustracao-de-macaco-estilo-nft-desenhada-a-mao_23-2149622021.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+
+</style>
+
+<div class="bg-brand-light">
+  <div class="p-4">
     <div class="flex items-center justify-between gap-6">
-      <img src="../assets/venture-miner-logo.png" class="w-32 bg-wite" />
+      <img src="https://images.squarespace-cdn.com/content/v1/58002e6837c581992d781204/1651707921847-OLXRNN70XR7VGPS9ZQS8/crop-43-43-1582-1582-0-donate-icon.png?format=2500w" class="w-16 bg-wite" />
       <div class="flex flex-row items-center gap-4 text-sm">
         <span
-          class="p-4 font-bold text-white rounded bg-gray-500"
+          class="p-4 font-bold text-white rounded bg-brand-secondary"
           *ngIf="currentChainId()"
           >Network ID {{ currentChainId() }}</span
         >
         <span
-          class="p-4 font-bold text-white break-all rounded bg-gray-500"
+          class="p-4 font-bold text-white break-all rounded bg-brand-secondary"
           *ngIf="currentAccount()"
           >{{ currentAccount() }}</span
         >
         <span
-          class="p-4 font-bold text-white break-all rounded bg-gray-500"
+          class="p-4 font-bold text-white break-all rounded bg-brand-secondary"
           *ngIf="balance()"
           >{{ balance() }}</span
         >
         <span
-          class="p-4 font-bold text-white break-all rounded cursor-pointer bg-gray-500"
+          class="p-4 font-bold text-white break-all rounded cursor-pointer bg-brand-secondary"
           *ngIf="hasMetamask && !currentAccount()"
           (click)="connectWallet()"
           >CONNECT WALLET</span
         >
         <span
-          class="p-4 font-bold text-white rounded bg-brand-yellow"
+          class="p-4 font-bold text-white rounded bg-brand-secondary"
           *ngIf="!hasMetamask"
           >PLEASE INSTALL METAMASK</span
         >
@@ -56,48 +70,52 @@
     </table>
   </div>
 
-  <div class="flex">
+  <div class="flex bg-brand-background">
 
-    <div class="w-1/5 h-screen overflow-y-auto bg-gray-300">
+    <div class="w-1/5 h-screen overflow-y-auto border border-gray-300 shadow-lg p-4 bg-white">
         <ul class="mt-12">
         <li>
-            <a routerLink="dashboard" class="block text-center py-5 my-5 bg-gray-200">
+            <a routerLink="dashboard" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
             <b>Dashboard</b>
             </a>
         </li>
         <li>
-            <a routerLink="/proposals" class="block text-center py-5 my-5 bg-gray-200">
+            <a routerLink="/proposals" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
             <b>Proposals</b>
             </a>
         </li>
         <li>
-            <a routerLink="/tracking" class="block text-center py-5 my-5 bg-gray-200">
+            <a routerLink="/tracking" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
             <b>Tracking</b>
             </a>
         </li>
         <li>
-            <a routerLink="/perfil" class="block text-center py-5 my-5 bg-gray-200 text-28">
+            <a routerLink="/perfil" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
             <b>Perfil</b>
             </a>
         </li>
+        <li>
+          <a routerLink="/create-proposal" class="block text-center rounded py-5 my-5 bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110"> <!--*ngIf="hasKyc" -->
+            <b class="text-white">Create Proposal</b>
+          </a>
+        </li>
         </ul>
-
-        <a routerLink="/create-proposal" class="block text-center py-5 m-10 bg-gray-500">
-          <b class="text-white">Create Proposal</b>
-        </a>
+      
+      
   
         <div class="flex justify-center mt-20">
-          <div class="bg-gray-500 items-center rounded-full h-[20vh] w-[20vh]">
+          <div class="bg-custom-image items-center rounded-full h-[20vh] w-[20vh]">
           </div>
         </div>
         <div class="text-center">
           <p class="text-2xl p-5"><b>Profile Name</b></p>
         </div>
+        {{user.email}}
         
     </div>
 
     <!-- Scrollable Main Content (80% width) -->
-    <div class="flex-1 overflow-y-auto p-4">
+    <div class="container_70">
       <router-outlet></router-outlet>
     </div>
   </div>

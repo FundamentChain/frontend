@@ -1,21 +1,77 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.2.1/echarts.min.js"></script>
 <div class="m-auto">
-    <div class="p-10 text-2xl font-bold">
-        Dashboard
+
+    <div class="container mx-auto p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                pie chart (open, success, unsuccess)
+                <div id="pie-chart" style="width: 100%; height: 400px;"></div>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                linechart proposals over time
+            </div>
+
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <div class="flex justify-center items-center text-center">
+                    <div class="w-1/2">
+                      asdfg
+                    </div>
+                </div>
+            </div>
+                  
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <div class="flex justify-center items-center">
+                    <div class="w-1/2">
+                        asdfg
+                    </div>
+                </div>  
+            </div>
+        </div>
     </div>
 </div>
 
-<div>
-    <div class="p-10 text-xl font-bold">
-        Live Proposals
-    </div>
-    <div class="h-[20vh] bg-gray-500">
-    </div>
-</div>
+<script>
+    // ECharts options
+    const option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: 'Access From',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 40,
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [
+                    { value: 1048, name: 'Search Engine' },
+                    { value: 735, name: 'Direct' },
+                    { value: 580, name: 'Email' },
+                    { value: 484, name: 'Union Ads' },
+                    { value: 300, name: 'Video Ads' }
+                ]
+            }
+        ]
+    };
 
-<div>
-    <div class="p-10 text-xl font-bold">
-        Previous proposals
-    </div>
-    <div class="h-[20vh] bg-gray-500">
-    </div>
-</div>
+    // Initialize ECharts instance and render the chart
+    const pieChart = echarts.init(document.getElementById('pie-chart'));
+    pieChart.setOption(option);
+</script>
