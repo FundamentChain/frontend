@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'proposals', component: ProposalsComponent },
   { path: 'tracking', component: TrackingComponent },
   { path: 'create-proposal', component: CreateProposalComponent },
-  { path: 'proposal-details', component: ProposalDetailsComponent }, // assuming you'll pass proposal ID in the route for details
+  { path: 'proposal-details/:address', component: ProposalDetailsComponent }, // assuming you'll pass proposal ID in the route for details
   { path: '', redirectTo: '/proposals', pathMatch: 'full' }, // default route
   { path: '**', redirectTo: '/proposals', pathMatch: 'full' }, // wildcard route for 404 not found pages
 ];

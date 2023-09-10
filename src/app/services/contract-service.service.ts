@@ -60,13 +60,15 @@ export class ContractServiceService {
     }
   }
 
-  async updateBalance(proposalAddress: string): Promise<number | string> { // RS
+  async amountLeft(proposalAddress: string): Promise<number | string> { // RS
     try {
+      console.log("hello1")
       const missingBalance = await this.proposalContract.attach(proposalAddress).missingBalanceToTarget();
+      console.log("hello2")
       return missingBalance;
     }
     catch {
-        alert("Error occured during the transaction! Confirm input")
+        alert("This read function did not work")
         return "Error"
     }
   }

@@ -17,5 +17,9 @@ export class ApiService {
   getEndedProposals(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/proposals/ended_proposals`);
   }
-  
+
+  getProposalDetail(address: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/proposals/${address}`);
+  }
+
 }

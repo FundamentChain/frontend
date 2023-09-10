@@ -1,6 +1,4 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, effect } from '@angular/core';
-import { MetamaskService } from '../services/metamask.service';
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -27,11 +25,9 @@ export class ProposalsComponent implements OnInit {
     this.apiService.getOpenProposals().subscribe({
       next: (response) => {
         this.openProposals = response;
-        console.log(response); // This will log the data received from the API
-        console.log(response[0]); // You can access elements if 'data' is an array
       },
       error: (error) => {
-        console.error('Error fetching open proposals:', error);
+        console.error('Error fetching open campaign:', error);
       }
     });
   }
@@ -41,7 +37,18 @@ export class ProposalsComponent implements OnInit {
         this.endedProposals = response;
       },
       error: (error) =>  {
-        console.error('Error fetching ended proposals:', error);
+        console.error('Error fetching ended campaign:', error);
+      }
+    });
+  }
+
+  getProposalDetail(address: string): void {
+    this.apiService.getProposalDetail(address).subscribe({
+      next: (response) => {
+        this.endedProposals = response;
+      },
+      error: (error) =>  {
+        console.error('Error fetching ended campaign:', error);
       }
     });
   }
