@@ -4,6 +4,8 @@ import { MetamaskService } from '../services/metamask.service';
 import { AlchemyService } from '../services/alchemy.service';
 import donationPlatform from "../../assets/contracts/DonationPlatformContract.json";
 import donationContract from "../../assets/contracts/DonationContract.json"
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +19,7 @@ export class ContractServiceService {
   balance = this.metamaskService.balance;
   hasRole: boolean = false;
 
-  contract = new ethers.Contract("0x92D001feCB274E5c5578BaBe9358c688C97d1aDd", donationPlatform.abi, this.signer);
+  contract = new ethers.Contract("0xD4d6125f9C0FceEEe0269D58A6Ab988532d5E73d", donationPlatform.abi, this.signer);
   proposalContract = new ethers.Contract("0x92D001feCB274E5c5578BaBe9358c688C97d1aDd", donationContract.abi, this.signer);
 
   constructor (
@@ -60,7 +62,6 @@ export class ContractServiceService {
       return "Error"
     }
   }
-
   async updateBalance(proposalAddress: string): Promise<number | string> {
     try {
       const missingBalance = await this.proposalContract.attach(proposalAddress).missingBalanceToTarget();

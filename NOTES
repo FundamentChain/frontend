@@ -1,0 +1,9 @@
+ApiService function putCreateCampaign should return hash | error message to dispaly in html 
+
+
+Add Timer of decreasing time to end 
+    If at zero (when user opens that proposal )
+    when user opens that proposal, if time == 0 
+        => enable close campaign button 
+        (ApiService function putCloseCampaign) 
+        CREATE IT FIRST (note to myself)
