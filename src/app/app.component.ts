@@ -5,6 +5,7 @@ import { Component, effect } from '@angular/core';
 import { TokenBalance } from 'alchemy-sdk';
 import { ethers } from 'ethers';
 import { HttpClient } from '@angular/common/http';
+import { ApiService } from './services/api.service';
 
 
 declare global {
@@ -29,6 +30,7 @@ export class AppComponent {
   user: any;
   hasMetamask;
   hasKyc: boolean = false;
+  
 
   private apiUrl = 'http://localhost:3000';
 
@@ -36,7 +38,8 @@ export class AppComponent {
     private http: HttpClient,
     private metamaskService: MetamaskService,
     private alchemyService: AlchemyService,
-    private contractService: ContractServiceService
+    private contractService: ContractServiceService,
+    private apiService: ApiService
   ) {
     this.hasMetamask = metamaskService.checkMetamaskAvailability();
     if (this.hasMetamask) {
@@ -50,11 +53,7 @@ export class AppComponent {
       }
     });
 
-    effect(async () => {
-      if (this.currentAccount()) {
-        this.user = this.getUser(this.currentAccount())
-      }
-    });
+
   }
 
   ngOnInit() {
@@ -62,20 +61,11 @@ export class AppComponent {
 
   connectWallet() {
      this.metamaskService.connectWallet();
-
-    if (this.currentAccount) {
-      const account = this.currentAccount();
-      const existsInDB =  this.metamaskService.checkWalletInDB(account);
-      
-      if (!existsInDB) {
-         this.metamaskService.createProfileForWallet(account);
-         
-      }
-    }
   }
 
-  getUser(address: string) {
+  getUser() {
     return this.http.get<any>(`${this.apiUrl}/users/${this.currentAccount}`);
   }
+
 
 }
