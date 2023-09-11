@@ -18,7 +18,8 @@ export class ProposalDetailsComponent {
   raisedPercentage = 0;
   contractAddress: any;
 
-  missingBalance: number = 0;
+  missingBalance: any = 0;
+  open: any = false;
   justClosed: boolean = false;
   
   constructor(
@@ -27,16 +28,28 @@ export class ProposalDetailsComponent {
     private contract: ContractServiceService) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.contractAddress = this.route.snapshot.paramMap.get('address') ?? "";
     this.getProposalDetail(this.contractAddress);
+    this.missingBalance = await this.contract.getMissingBalance(this.contractAddress);
+    this.raisedPercentage = Math.round((this.proposal.amountRequested - this.missingBalance) / this.proposal.amountRequested * 100);
+    this.open = await this.contract.getCampaignOpen(this.contractAddress);
 
-    if (this.proposal.open) {
+    if (this.missingBalance == 0) {
+      console.log("why")
+      this.apiService.putCloseCampaign(this.contractAddress);
+      this.justClosed = true;
+    }
+
+    /* GONÇALO
+     if (this.proposal.open) {
       this.getNewBalance();
     }
     else {this.missingBalance = 0;}
-  }
+  } */
 
+}
+  
   getProposalDetail(address:string): void {
     this.apiService.getProposalDetail(address).subscribe({
       next: (response) => {
@@ -48,26 +61,39 @@ export class ProposalDetailsComponent {
     });
   }
 
+  async donate(amount: string) {
+    const amountNumber = BigInt(Number(amount))
+    try {
+      if (this.proposal.open) {
+        this.contract.donate(this.contractAddress, amountNumber);
+      }
+      else {
+        console.log("Campaign already closed");
+      }
+    }
+    catch {
+      console.log("API connection error")
+    }
+  }
+
+  /*
   private async getNewBalance(): Promise<number> {
     try {
+      console.log("hello")
       const missingBalance: number | string = await this.contract.updateBalance(this.contractAddress);
+      console.log(missingBalance);
       if (typeof missingBalance === 'string') {
-        // Handle error message
         console.error("Error occurred during the transaction:", missingBalance);
         return 0;
       } else {
-        // Handle successful balance update
         if (missingBalance == 0) {
-          // close campaign 
           this.apiService.putCloseCampaign(this.contractAddress);
-          // disable donations 
           this.justClosed = true;
         }
         return missingBalance;
       }
     } catch (error) {
       console.error("Error occurred during the transaction:", error);
-      // You can also display an error message to the user here if needed.
       return 0;
     }
   }
@@ -80,4 +106,6 @@ export class ProposalDetailsComponent {
     });
   }
 
+  */
+    
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit, effect } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
-import { MetamaskService } from '../services/metamask.service';
 
 @Component({
   selector: 'proposals',
@@ -11,18 +10,14 @@ import { MetamaskService } from '../services/metamask.service';
 
 export class ProposalsComponent implements OnInit {
   openProposals?: any[];
-  endedProposals?: any[];
 
   constructor(private apiService: ApiService,
-    private router: Router,
-    private mService: MetamaskService) {
+    private router: Router) {
     this.openProposals = [];
-    this.endedProposals = [];
   }
 
   ngOnInit(): void {
     this.getOpenProposals();
-    this.getEndedProposals();
   }
 
   getOpenProposals(): void {
@@ -32,17 +27,6 @@ export class ProposalsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching open proposals:', error);
-      }
-    });
-  }
-
-  getEndedProposals(): void {
-    this.apiService.getEndedProposals().subscribe({
-      next: (response) => {
-        this.endedProposals = response;
-      },
-      error: (error) =>  {
-        console.error('Error fetching ended proposals:', error);
       }
     });
   }

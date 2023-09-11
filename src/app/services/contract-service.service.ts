@@ -25,29 +25,30 @@ export class ContractServiceService {
     private alchemyService: AlchemyService) {
 
       effect(async () => {
-        // try 
         const campaignCreator =  await this.platformContract.CAMPAIGN_CREATOR()
         this.hasRole = await this.platformContract.hasRole(campaignCreator, this.signer._address);
       });
   }
 
-  async amountLeft(proposalAddress: string): Promise<number | string> { // RS
+  async donate(proposalAddress: string, amount: bigint): Promise<string> {
+
     try {
-      const missingBalance = await this.proposalContract.attach(proposalAddress).missingBalanceToTarget();
-      return missingBalance;
-    }
-    catch {
-        alert("This read function did not work")
-        return "Error"
+      const contract = this.proposalContract.attach(proposalAddress);
+      const tx = await contract.donate({value: amount.toString()});
+      await tx.wait();
+      console.log("Transaction hash:", tx.hash);
+      return tx.hash;
+    } 
+    catch (error) {
+      console.error("Error:", error);
+      alert("Error occurred during the transaction! Confirm input");
+      return "Error";
     }
   }
 
-  // donate - RS
-  async donate(proposalAddress: string, amount: number): Promise<string> { // RS
+  async getCampaignOpen(proposalAddress: string): Promise<boolean | string> {
     try {
-      const tx = await this.proposalContract.attach(proposalAddress).donate(amount);
-      await tx.wait();
-      return tx.hash
+      return await this.proposalContract.attach(proposalAddress).campaignOpen();
     }
     catch {
         alert("Error occured during the transaction! Confirm input")
@@ -55,10 +56,10 @@ export class ContractServiceService {
     }
   }
 
-  async updateBalance(proposalAddress: string): Promise<number | string> {
+  async getMissingBalance(proposalAddress: string): Promise<number | string> {
     try {
       const missingBalance = await this.proposalContract.attach(proposalAddress).missingBalanceToTarget();
-      return missingBalance;
+      return missingBalance.toNumber();
     }
     catch {
         alert("Error occured during the transaction! Confirm input")
