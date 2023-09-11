@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MetamaskService } from './metamask.service';
 import { User } from './user.model';
 import { Observable } from 'rxjs';
 import { MetamaskService } from './metamask.service';

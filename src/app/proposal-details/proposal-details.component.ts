@@ -15,12 +15,18 @@ import { ethers } from 'ethers';
 export class ProposalDetailsComponent {
 
   proposal?: any;
-  raisedPercentage = 0;
   contractAddress: any;
+  contractOpen: any = false; // campaign closed in contract
+  readyToClose: any = false;  // campaign ready to close 
 
+  // variables to check when to close 
   missingBalance: any = 0;
-  open: any = false;
-  justClosed: boolean = false;
+  countdown: string = ""; // campaign ended  
+  countdownSeconds: number = 0;
+  countdownEvent: any;
+
+  // others
+  raisedPercentage = 0;
   
   constructor(
     private route: ActivatedRoute,
@@ -31,25 +37,10 @@ export class ProposalDetailsComponent {
   async ngOnInit() {
     this.contractAddress = this.route.snapshot.paramMap.get('address') ?? "";
     this.getProposalDetail(this.contractAddress);
-    this.missingBalance = await this.contract.getMissingBalance(this.contractAddress);
-    this.raisedPercentage = Math.round((this.proposal.amountRequested - this.missingBalance) / this.proposal.amountRequested * 100);
-    this.open = await this.contract.getCampaignOpen(this.contractAddress);
-
-    if (this.missingBalance == 0) {
-      console.log("why")
-      this.apiService.putCloseCampaign(this.contractAddress);
-      this.justClosed = true;
-    }
-
-    /* GONÇALO
-     if (this.proposal.open) {
-      this.getNewBalance();
-    }
-    else {this.missingBalance = 0;}
-  } */
-
+    this.updateCountdown();
+    this.countdownEvent = setInterval(() => this.updateCountdown(), 1000);
+    this.updateStatus();
 }
-  
   getProposalDetail(address:string): void {
     this.apiService.getProposalDetail(address).subscribe({
       next: (response) => {
@@ -61,51 +52,52 @@ export class ProposalDetailsComponent {
     });
   }
 
+  // Only visible if campaign is open
   async donate(amount: string) {
-    const amountNumber = BigInt(Number(amount))
-    try {
-      if (this.proposal.open) {
-        this.contract.donate(this.contractAddress, amountNumber);
-      }
-      else {
-        console.log("Campaign already closed");
-      }
+    const amountNumber = BigInt(Number(amount));
+    this.updateStatus();
+    if (this.missingBalance == 0) {
+      return "Sorry, someone has donated, and the campaign reached its limit!";
     }
-    catch {
-      console.log("API connection error")
+    if (this.missingBalance < amountNumber) {
+      return "Sorry, someone has donated, and your donation amount exceeds the limit!";
+    }
+    return this.contract.donate(this.contractAddress, amountNumber);
+  }
+
+  // Triggered when button clicked
+  // Button enabled if countdown == 0 or this.missingBalance == 0
+  async closeCampaign() {return this.contract.closeCampaign(this.contractAddress);}
+
+
+  // Updates variables and returns true if donation can proceed
+  async updateStatus(): Promise<void> {
+    this.missingBalance = await this.contract.getMissingBalance(this.contractAddress);
+    // if (typeof this.missingBalance == 'string') {return 'Error'} // assert 
+
+    this.raisedPercentage = Math.round(
+      (this.proposal.amountRequested - this.missingBalance) 
+      / this.proposal.amountRequested * 100);
+
+    this.contractOpen = await this.contract.getCampaignOpen(this.contractAddress);
+    if (this.contractOpen){
+      this.readyToClose = this.missingBalance == 0 || this.countdownSeconds <= 0;
     }
   }
 
-  /*
-  private async getNewBalance(): Promise<number> {
-    try {
-      console.log("hello")
-      const missingBalance: number | string = await this.contract.updateBalance(this.contractAddress);
-      console.log(missingBalance);
-      if (typeof missingBalance === 'string') {
-        console.error("Error occurred during the transaction:", missingBalance);
-        return 0;
+    // Countdown to bets closed
+    updateCountdown() {
+      this.countdownSeconds = Math.floor(Number(this.proposal.endTime) - Number(Date.now()) / 1000);
+      if (this.countdownSeconds <= 0) {
+        this.countdown = "";   
+        this.updateStatus();
+        clearInterval(this.countdownEvent);
       } else {
-        if (missingBalance == 0) {
-          this.apiService.putCloseCampaign(this.contractAddress);
-          this.justClosed = true;
-        }
-        return missingBalance;
+        const hours = Math.floor(this.countdownSeconds / 3600);
+        const minutes = Math.floor((this.countdownSeconds % 3600) / 60);
+        const seconds = Math.floor(this.countdownSeconds % 60);
+        this.countdown = `${hours}h ${minutes}m ${seconds}s`;
       }
-    } catch (error) {
-      console.error("Error occurred during the transaction:", error);
-      return 0;
     }
-  }
 
-  stillSameBalance() {
-    this.getNewBalance().then((newBalance) => {
-      const sameBalance = this.missingBalance == newBalance;
-      this.missingBalance = newBalance;
-      return sameBalance;
-    });
-  }
-
-  */
-    
 }

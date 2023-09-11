@@ -18,19 +18,6 @@ export class CreateProposalComponent {
     timestamp: string,
     category: string,
     description: string,
-<<<<<<< HEAD
-  ) { 
-    console.log([proposalName, amountRequested, timestamp, category, description]);
-    this.ContractService.createProposal(
-      proposalName,
-      amountRequested,
-      timestamp,
-      category,
-      description)
-  }
-  
-
-=======
     ): void {
       this.apiService.putCreateCampaign(
         proposalName,
@@ -47,5 +34,4 @@ export class CreateProposalComponent {
         }
       });
     }
->>>>>>> 6c040302579fd791b9e665a55a82f0c4c664a3ee
 }

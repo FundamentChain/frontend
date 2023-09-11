@@ -31,7 +31,6 @@ export class ContractServiceService {
   }
 
   async donate(proposalAddress: string, amount: bigint): Promise<string> {
-
     try {
       const contract = this.proposalContract.attach(proposalAddress);
       const tx = await contract.donate({value: amount.toString()});
@@ -41,18 +40,29 @@ export class ContractServiceService {
     } 
     catch (error) {
       console.error("Error:", error);
-      alert("Error occurred during the transaction! Confirm input");
-      return "Error";
+      return "Error. Inssuficient Funds or Excceded amout Requested "
     }
   }
+
+  async closeCampaign(proposalAddress: string): Promise<string> {
+    try {
+      const contract = this.proposalContract.attach(proposalAddress);
+      const tx = await contract.closeCampaign();
+      return "Closed Campaign Successfully"
+    } 
+    catch (error) {
+      console.error("Error:", error);
+      return "Cant be closed yet";
+    }
+  }
+
 
   async getCampaignOpen(proposalAddress: string): Promise<boolean | string> {
     try {
       return await this.proposalContract.attach(proposalAddress).campaignOpen();
     }
     catch {
-        alert("Error occured during the transaction! Confirm input")
-        return "Error"
+        return "Error. Probaly invalid address"
     }
   }
 
@@ -62,8 +72,7 @@ export class ContractServiceService {
       return missingBalance.toNumber();
     }
     catch {
-        alert("Error occured during the transaction! Confirm input")
-        return "Error"
+        return "Error. Probaly invalid address"
     }
   }
 
