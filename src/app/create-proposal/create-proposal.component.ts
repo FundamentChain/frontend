@@ -18,7 +18,8 @@ export class CreateProposalComponent {
     timestamp: string,
     category: string,
     description: string,
-  ) {
+  ) { 
+    console.log([proposalName, amountRequested, timestamp, category, description]);
     this.ContractService.createProposal(
       proposalName,
       amountRequested,
