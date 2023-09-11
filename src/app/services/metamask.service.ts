@@ -76,7 +76,6 @@ export class MetamaskService {
     return this.http.get(`${this.baseUrl}/users`);
   }
 
-
   async checkWalletInDB(walletAddress: string) {
     try {
       await this.http.get(`${this.baseUrl}/users/${walletAddress}`).toPromise();

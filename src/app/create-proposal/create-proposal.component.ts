@@ -1,5 +1,5 @@
-import { Component, effect } from '@angular/core';
-import { ContractServiceService } from '../services/contract-service.service';
+import { Component } from '@angular/core';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-create-proposal',
@@ -8,24 +8,30 @@ import { ContractServiceService } from '../services/contract-service.service';
 })
 export class CreateProposalComponent {
 
-  constructor (
-    private ContractService: ContractServiceService,
-  ) {}
+  hash: string = ''
 
-  async createProposal(
+  constructor (private apiService: ApiService) {}
+
+  createProposal(
     proposalName: string,
     amountRequested: string,
     timestamp: string,
     category: string,
     description: string,
-  ) {
-    this.ContractService.createProposal(
-      proposalName,
-      amountRequested,
-      timestamp,
-      category,
-      description)
-  }
-  
-
+    ): void {
+      this.apiService.putCreateCampaign(
+        proposalName,
+        amountRequested,
+        timestamp,
+        category,
+        description
+      ).subscribe({
+        next: (response) => {
+          this.hash = response;
+        },
+        error: (error) =>  {
+          console.error('Error creating proposal:', error);
+        }
+      });
+    }
 }
