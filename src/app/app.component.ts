@@ -1,11 +1,10 @@
+import { ContractServiceService } from './services/contract-service.service';
 import { MetamaskService } from './services/metamask.service';
 import { AlchemyService } from './services/alchemy.service';
-import { ContractServiceService } from './services/contract-service.service';
 import { Component, effect } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { TokenBalance } from 'alchemy-sdk';
 import { ethers } from 'ethers';
-import { HttpClient } from '@angular/common/http';
-
 
 declare global {
   interface Window {
@@ -30,7 +29,7 @@ export class AppComponent {
   hasMetamask;
   hasKyc: boolean = false;
 
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'http://localhost:3000/api';
 
   constructor(
     private http: HttpClient,
@@ -69,13 +68,12 @@ export class AppComponent {
       
       if (!existsInDB) {
          this.metamaskService.createProfileForWallet(account);
-         
       }
     }
   }
 
   getUser(address: string) {
-    return this.http.get<any>(`${this.apiUrl}/users/${this.currentAccount}`);
+    return this.http.get<any>(`${this.apiUrl}/user/${address}`);
   }
 
 }

@@ -20,8 +20,6 @@ export class PerfilComponent implements OnInit {
     this.apiService.getUserByWallet().subscribe({
       next: (data) => {
         this.user = data;
-        console.log('this data:',this.user); // This will log the data received from the API
-         // You can access elements if 'data' is an array
       },
       error: (error) => {
         console.error('Error fetching open proposals:', error);

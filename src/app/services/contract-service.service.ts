@@ -17,7 +17,7 @@ export class ContractServiceService {
   balance = this.metamaskService.balance;
   hasRole: boolean = false;
 
-  platformContract = new ethers.Contract("0x92D001feCB274E5c5578BaBe9358c688C97d1aDd", donationPlatform.abi, this.signer);
+  platformContract = new ethers.Contract("0xc7005540F6288bc97E85dE5BF7b8cAab79B9A9F9", donationPlatform.abi, this.signer);
   proposalContract = new ethers.Contract("", donationContract.abi, this.signer);
 
   constructor (
@@ -31,40 +31,9 @@ export class ContractServiceService {
       });
   }
 
-  async createProposal( // GA
-    proposalName: string,
-    amountRequested: string,
-    timestamp: string,
-    category: string,
-    description: string,
-  ) {
-    const reciever =  this.currentAccount();
-
-    const amountNumber = Number(amountRequested)
-    const timestampNumber = Number(timestamp)
-
-    try {
-      const tx = await this.platformContract.createCampaign(
-        this.signer.getAddress(),
-        "",
-        amountNumber,
-        timestampNumber
-      );
-      await tx.wait();
-      return tx.hash; 
-    }
-
-    catch{
-      alert("Error occured during the transaction! Confirm input")
-      return "Error"
-    }
-  }
-
   async amountLeft(proposalAddress: string): Promise<number | string> { // RS
     try {
-      console.log("hello1")
       const missingBalance = await this.proposalContract.attach(proposalAddress).missingBalanceToTarget();
-      console.log("hello2")
       return missingBalance;
     }
     catch {
@@ -79,6 +48,17 @@ export class ContractServiceService {
       const tx = await this.proposalContract.attach(proposalAddress).donate(amount);
       await tx.wait();
       return tx.hash
+    }
+    catch {
+        alert("Error occured during the transaction! Confirm input")
+        return "Error"
+    }
+  }
+
+  async updateBalance(proposalAddress: string): Promise<number | string> {
+    try {
+      const missingBalance = await this.proposalContract.attach(proposalAddress).missingBalanceToTarget();
+      return missingBalance;
     }
     catch {
         alert("Error occured during the transaction! Confirm input")
