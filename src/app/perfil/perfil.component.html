@@ -19,10 +19,17 @@
     <div class="w-2/5 overflow-y-auto justify-center p-20">
       <div class="flex justify-center">
         <div class="bg-gray-500 items-center rounded-full h-[20vh] w-[20vh]">
+          
         </div>
       </div>
       <div class="text-center ">
         <p class="text-2xl p-5"><b>Profile Name</b></p>
+       
+      </div>
+    </div>
+  
+    <div class="w-3/5 overflow-y-auto p-20">
+      <div class="bg-gray-200 w-full h-[25vh]">
         <div *ngIf="user">
           <h1>{{ user.usermane }}</h1>
           <img [src]="user.image" alt="User Image">
@@ -32,11 +39,6 @@
           <p>Registration Date: {{ user.registrationDate | date }}</p>
           <!-- you can add other fields similarly -->
         </div>
-      </div>
-    </div>
-  
-    <div class="w-3/5 overflow-y-auto p-20">
-      <div class="bg-gray-200 w-full h-[25vh]">
       </div>
     </div>
   </div>

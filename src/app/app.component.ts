@@ -5,8 +5,6 @@ import { Component, effect } from '@angular/core';
 import { TokenBalance } from 'alchemy-sdk';
 import { ethers } from 'ethers';
 import { HttpClient } from '@angular/common/http';
-import { User } from './services/user.model';
-import { ApiService } from './services/api.service';
 
 
 declare global {
@@ -31,20 +29,15 @@ export class AppComponent {
   user: any;
   hasMetamask;
   hasKyc: boolean = false;
-  userMenu?: User;  
 
-  private apiUrl = 'http://localhost:3000/api';
-  
+  private apiUrl = 'http://localhost:3000';
 
   constructor(
     private http: HttpClient,
     private metamaskService: MetamaskService,
     private alchemyService: AlchemyService,
-    private contractService: ContractServiceService,
-    private apiService: ApiService
+    private contractService: ContractServiceService
   ) {
-    this.userMenu = {} as User;
-
     this.hasMetamask = metamaskService.checkMetamaskAvailability();
     if (this.hasMetamask) {
       metamaskService.retrieveConnection();
@@ -64,15 +57,7 @@ export class AppComponent {
     });
   }
 
-  ngOnInit(): void {
-    this.apiService.getUserByWallet().subscribe({
-      next: (data) => {
-        this.userMenu = data;
-      },
-      error: (error) => {
-        console.error('Error fetching open proposals:', error);
-      }
-    });
+  ngOnInit() {
   }
 
   connectWallet() {
@@ -84,12 +69,13 @@ export class AppComponent {
       
       if (!existsInDB) {
          this.metamaskService.createProfileForWallet(account);
+         
       }
     }
   }
 
   getUser(address: string) {
-    return this.http.get<any>(`${this.apiUrl}/user/${address}`);
+    return this.http.get<any>(`${this.apiUrl}/users/${this.currentAccount}`);
   }
 
 }

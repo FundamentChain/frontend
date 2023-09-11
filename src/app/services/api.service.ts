@@ -31,5 +31,10 @@ export class ApiService {
       alert(`${this.apiUrl}/users/${this.metamasService.currentAccount()}`);
       return this.http.get<User>(`${this.apiUrl}/users/${this.metamasService.currentAccount()}`);
     }
+    createUser(user: any): Observable<any> {
+      return this.http.post(`${this.apiUrl}/users`, user);
+    }
+    
+
 
 }
