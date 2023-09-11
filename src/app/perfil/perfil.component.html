@@ -23,6 +23,15 @@
       </div>
       <div class="text-center ">
         <p class="text-2xl p-5"><b>Profile Name</b></p>
+        <div *ngIf="user">
+          <h1>{{ user.usermane }}</h1>
+          <img [src]="user.image" alt="User Image">
+          <p>Email: {{ user.email }}</p>
+          <p>Description: {{ user.description }}</p>
+          <p>Wallet: {{ user.wallet }}</p>
+          <p>Registration Date: {{ user.registrationDate | date }}</p>
+          <!-- you can add other fields similarly -->
+        </div>
       </div>
     </div>
   
