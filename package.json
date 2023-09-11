@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^16.0.2",
     "@angular/router": "^16.0.2",
     "alchemy-sdk": "^2.8.2",
+    "echarts": "^5.4.3",
     "ethers": "5.7.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

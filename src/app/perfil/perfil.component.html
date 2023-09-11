@@ -1,25 +1,34 @@
-<div class="m-auto">
+<div class="m-auto p-4">
 
-  <div class="flex">
-    <div class="flex-1">
-      <div class="p-10 text-2xl font-bold">
-        Perfil
-      </div>
-    </div>
-    <div>
-      <a routerLink="#" class="block text-center m-10 bg-gray-400 w-40 p-4">
-        <b class="text-white">KYC</b>
-      </a>
-    </div>
-  </div>
-  
-<div class="w-full bg-gray-400">
-
-  <div class="flex">
-    <div class="w-2/5 overflow-y-auto justify-center p-20">
-      <div class="flex justify-center">
-        <div class="bg-gray-500 items-center rounded-full h-[20vh] w-[20vh]">
+  <div class="w-full bg-white">
+      
+    <div *ngIf="user">
+      <div class="flex">
+          
+        <div class="w-2/5 overflow-y-auto justify-center p-20">
+          <div class="flex justify-center">
+            <img [src]="user.image" alt="User Image">
+          </div>
+          <div class="text-center ">
+            <p class="text-2xl p-5"><b>{{ user.usermane }}</b></p>
+          </div>
         </div>
+        
+        <div class="w-3/5 overflow-y-auto p-20">
+          <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
+            <b>Email</b>
+            <br/>
+            {{user.email}}
+          </div> 
+          <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
+            <b>User wallet</b>
+            <br/>
+            {{user.wallet}}</div>
+          <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
+            <b>Registration date</b>
+            <br/>
+            {{user.registrationDate | date}}</div>
+          </div>  
       </div>
       <div class="text-center ">
         <p class="text-2xl p-5"><b>Profile Name</b></p>
@@ -34,20 +43,23 @@
         </div>
         
       </div>
+      <br/>
+      
+      <a routerLink="#" class="w-[80%] m-auto block text-center rounded py-5 my-5 bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+          <b class="text-white">Update profile</b>
+      </a>
+      <br/>
+
     </div>
+
+    <ng-template #elseBlock>
+      <a routerLink="#" class="w-[80%] m-auto block text-center rounded py-5 my-5 bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+        <b class="text-white">Create profile</b>
+    </a>
+    <br/>
+    </ng-template>
+
+</div>
+
+
   
-    <div class="w-3/5 overflow-y-auto p-20">
-      <div class="bg-gray-200 w-full h-[25vh]">
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<div class="w-full bg-gray-400 mt-20">
-  <div class="p-5">
-    <div class="m-5 p-5 bg-white text-center">Proposal Id / Name / Time left</div>
-    <div class="m-5 p-5 bg-white text-center">Proposal Id / Name / Time left</div>
-    <div class="m-5 p-5 bg-white text-center">Proposal Id / Name / Time left</div>
-  </div>
-</div>

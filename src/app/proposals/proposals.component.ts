@@ -1,5 +1,6 @@
 import { Component, OnInit, effect } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'proposals',
@@ -9,49 +10,29 @@ import { ApiService } from '../services/api.service';
 
 export class ProposalsComponent implements OnInit {
   openProposals?: any[];
-  endedProposals?: any[];
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService,
+    private router: Router) {
     this.openProposals = [];
-    this.endedProposals = [];
   }
 
   ngOnInit(): void {
     this.getOpenProposals();
-    this.getEndedProposals();
   }
 
   getOpenProposals(): void {
     this.apiService.getOpenProposals().subscribe({
       next: (response) => {
-        this.openProposals = response;
+        this.openProposals = response
       },
       error: (error) => {
-        console.error('Error fetching open campaign:', error);
-      }
-    });
-  }
-  getEndedProposals(): void {
-    this.apiService.getEndedProposals().subscribe({
-      next: (response) => {
-        this.endedProposals = response;
-      },
-      error: (error) =>  {
-        console.error('Error fetching ended campaign:', error);
+        console.error('Error fetching open proposals:', error);
       }
     });
   }
 
-  getProposalDetail(address: string): void {
-    this.apiService.getProposalDetail(address).subscribe({
-      next: (response) => {
-        this.endedProposals = response;
-      },
-      error: (error) =>  {
-        console.error('Error fetching ended campaign:', error);
-      }
-    });
+  proposalDetail(address: string): void {
+    this.router.navigate(['/proposal-details', address]);
   }
+
 }
-
-export default ProposalsComponent;

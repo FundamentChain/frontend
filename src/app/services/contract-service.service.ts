@@ -17,7 +17,7 @@ export class ContractServiceService {
   balance = this.metamaskService.balance;
   hasRole: boolean = false;
 
-  platformContract = new ethers.Contract("0x92D001feCB274E5c5578BaBe9358c688C97d1aDd", donationPlatform.abi, this.signer);
+  platformContract = new ethers.Contract("0xc7005540F6288bc97E85dE5BF7b8cAab79B9A9F9", donationPlatform.abi, this.signer);
   proposalContract = new ethers.Contract("", donationContract.abi, this.signer);
 
   constructor (
@@ -25,60 +25,41 @@ export class ContractServiceService {
     private alchemyService: AlchemyService) {
 
       effect(async () => {
-        // try 
         const campaignCreator =  await this.platformContract.CAMPAIGN_CREATOR()
         this.hasRole = await this.platformContract.hasRole(campaignCreator, this.signer._address);
       });
   }
 
-  async createProposal( // GA
-    proposalName: string,
-    amountRequested: string,
-    timestamp: string,
-    category: string,
-    description: string,
-  ) {
-    const reciever =  this.currentAccount();
-
-    const amountNumber = Number(amountRequested)
-    const timestampNumber = Number(timestamp)
+  async donate(proposalAddress: string, amount: bigint): Promise<string> {
 
     try {
-      const tx = await this.platformContract.createCampaign(
-        this.signer.getAddress(),
-        "",
-        amountNumber,
-        timestampNumber
-      );
+      const contract = this.proposalContract.attach(proposalAddress);
+      const tx = await contract.donate({value: amount.toString()});
       await tx.wait();
-      return tx.hash; 
-    }
-
-    catch{
-      alert("Error occured during the transaction! Confirm input")
-      return "Error"
+      console.log("Transaction hash:", tx.hash);
+      return tx.hash;
+    } 
+    catch (error) {
+      console.error("Error:", error);
+      alert("Error occurred during the transaction! Confirm input");
+      return "Error";
     }
   }
 
-  async amountLeft(proposalAddress: string): Promise<number | string> { // RS
+  async getCampaignOpen(proposalAddress: string): Promise<boolean | string> {
     try {
-      console.log("hello1")
-      const missingBalance = await this.proposalContract.attach(proposalAddress).missingBalanceToTarget();
-      console.log("hello2")
-      return missingBalance;
+      return await this.proposalContract.attach(proposalAddress).campaignOpen();
     }
     catch {
-        alert("This read function did not work")
+        alert("Error occured during the transaction! Confirm input")
         return "Error"
     }
   }
 
-  // donate - RS
-  async donate(proposalAddress: string, amount: number): Promise<string> { // RS
+  async getMissingBalance(proposalAddress: string): Promise<number | string> {
     try {
-      const tx = await this.proposalContract.attach(proposalAddress).donate(amount);
-      await tx.wait();
-      return tx.hash
+      const missingBalance = await this.proposalContract.attach(proposalAddress).missingBalanceToTarget();
+      return missingBalance.toNumber();
     }
     catch {
         alert("Error occured during the transaction! Confirm input")
