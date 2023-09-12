@@ -37,14 +37,16 @@ export class ProposalDetailsComponent {
   async ngOnInit() {
     this.contractAddress = this.route.snapshot.paramMap.get('address') ?? "";
     this.getProposalDetail(this.contractAddress);
-    this.updateCountdown();
-    this.countdownEvent = setInterval(() => this.updateCountdown(), 1000);
-    this.updateStatus();
 }
   getProposalDetail(address:string): void {
     this.apiService.getProposalDetail(address).subscribe({
       next: (response) => {
-        this.proposal = response[0];
+        this.proposal = response;
+
+        // set the rest of tasks 
+        this.checkCloseByMaxBalance();
+        this.updateCountdown();
+        this.countdownEvent = setInterval(() => this.updateCountdown(), 1000);
       },
       error: (error) =>  {
         console.error('Error fetching ended proposals:', error);
@@ -55,7 +57,7 @@ export class ProposalDetailsComponent {
   // Only visible if campaign is open
   async donate(amount: string) {
     const amountNumber = BigInt(Number(amount));
-    this.updateStatus();
+    this.checkCloseByMaxBalance();
     if (this.missingBalance == 0) {
       return "Sorry, someone has donated, and the campaign reached its limit!";
     }
@@ -71,7 +73,7 @@ export class ProposalDetailsComponent {
 
 
   // Updates variables and returns true if donation can proceed
-  async updateStatus(): Promise<void> {
+  async checkCloseByMaxBalance(): Promise<void> {
     this.missingBalance = await this.contract.getMissingBalance(this.contractAddress);
     // if (typeof this.missingBalance == 'string') {return 'Error'} // assert 
 
@@ -83,20 +85,24 @@ export class ProposalDetailsComponent {
     if (this.contractOpen){
       this.readyToClose = this.missingBalance == 0 || this.countdownSeconds <= 0;
     }
+    else {clearInterval(this.countdownEvent);}
+    console.log(this.missingBalance);
+    console.log(this.contractOpen);
+    console.log(this.readyToClose);
   }
 
     // Countdown to bets closed
     updateCountdown() {
       this.countdownSeconds = Math.floor(Number(this.proposal.endTime) - Number(Date.now()) / 1000);
       if (this.countdownSeconds <= 0) {
-        this.countdown = "";   
-        this.updateStatus();
+        this.checkCloseByMaxBalance();
         clearInterval(this.countdownEvent);
       } else {
-        const hours = Math.floor(this.countdownSeconds / 3600);
+        const days = Math.floor(this.countdownSeconds / 86400); // 86400 seconds in a day
+        const hours = Math.floor((this.countdownSeconds % 86400) / 3600);
         const minutes = Math.floor((this.countdownSeconds % 3600) / 60);
         const seconds = Math.floor(this.countdownSeconds % 60);
-        this.countdown = `${hours}h ${minutes}m ${seconds}s`;
+        this.countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`;
       }
     }
 

@@ -62,6 +62,7 @@ export class MetamaskService {
     if (!this.provider) throw new Error('Provider not configured!');
     const balance = await this.provider.getBalance(this.currentAccount());
     this.balance.set(ethers.utils.formatEther(balance));
+    console.log(window.ethereum);
   }
 
   getProvider() {
