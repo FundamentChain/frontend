@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './tracking.component.html',
   styleUrls: ['./tracking.component.css']
 })
+
 export class TrackingComponent {
   endedProposals?: any[];
 
@@ -32,7 +33,21 @@ export class TrackingComponent {
   }
 
   proposalDetail(address: string): void {
-    this.router.navigate(['/proposal-details', address]);
+    this.router.navigate(['/tracking', address]);
+  }
+
+  timestampToDate(timestamp: number): string {
+    const date = new Date(timestamp * 1000); // Convert Unix timestamp to milliseconds
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short',
+    };
+    return date.toLocaleString('en-US', options);
   }
 
 }

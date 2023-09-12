@@ -1,11 +1,9 @@
-import { ContractServiceService } from './services/contract-service.service';
 import { MetamaskService } from './services/metamask.service';
 import { AlchemyService } from './services/alchemy.service';
 import { Component, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TokenBalance } from 'alchemy-sdk';
 import { ethers } from 'ethers';
-import { ApiService } from './services/api.service';
 
 
 declare global {
@@ -37,9 +35,7 @@ export class AppComponent {
   constructor(
     private http: HttpClient,
     private metamaskService: MetamaskService,
-    private alchemyService: AlchemyService,
-    private contractService: ContractServiceService,
-    private apiService: ApiService
+    private alchemyService: AlchemyService
   ) {
     this.hasMetamask = metamaskService.checkMetamaskAvailability();
     if (this.hasMetamask) {
@@ -52,8 +48,6 @@ export class AppComponent {
         );
       }
     });
-
-
   }
 
   ngOnInit() {
@@ -66,6 +60,4 @@ export class AppComponent {
   getUser() {
     return this.http.get<any>(`${this.apiUrl}/users/${this.currentAccount}`);
   }
-
-
 }

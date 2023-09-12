@@ -9,9 +9,11 @@ import { Router } from '@angular/router';
 })
 
 export class ProposalsComponent implements OnInit {
+  
   openProposals?: any[];
 
-  constructor(private apiService: ApiService,
+  constructor(
+    private apiService: ApiService,
     private router: Router) {
     this.openProposals = [];
   }
@@ -33,6 +35,20 @@ export class ProposalsComponent implements OnInit {
 
   proposalDetail(address: string): void {
     this.router.navigate(['/proposal-details', address]);
+  }
+
+  timestampToDate(timestamp: number): string {
+    const date = new Date(timestamp * 1000); // Convert Unix timestamp to milliseconds
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short',
+    };
+    return date.toLocaleString('en-US', options);
   }
 
 }

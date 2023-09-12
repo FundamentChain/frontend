@@ -2,10 +2,6 @@ import { Component, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { ContractServiceService } from '../services/contract-service.service';
-import donationContract from "../../assets/contracts/DonationContract.json"
-import { ethers } from 'ethers';
-
-
 
 @Component({
   selector: 'app-proposal-details',
@@ -19,15 +15,15 @@ export class ProposalDetailsComponent {
   contractOpen: any = false; // campaign closed in contract
   readyToClose: any = false;  // campaign ready to close 
 
-  // variables to check when to close 
+  // variables to check when to close
   missingBalance: any = 0;
-  countdown: string = ""; // campaign ended  
+  countdown: string = ""; // campaign ended
   countdownSeconds: number = 0;
   countdownEvent: any;
 
   // others
   raisedPercentage = 0;
-  
+
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
@@ -37,7 +33,8 @@ export class ProposalDetailsComponent {
   async ngOnInit() {
     this.contractAddress = this.route.snapshot.paramMap.get('address') ?? "";
     this.getProposalDetail(this.contractAddress);
-}
+  }
+
   getProposalDetail(address:string): void {
     this.apiService.getProposalDetail(address).subscribe({
       next: (response) => {
@@ -69,8 +66,9 @@ export class ProposalDetailsComponent {
 
   // Triggered when button clicked
   // Button enabled if countdown == 0 or this.missingBalance == 0
-  async closeCampaign() {return this.contract.closeCampaign(this.contractAddress);}
-
+  async closeCampaign() {
+    return this.contract.closeCampaign(this.contractAddress);
+  }
 
   // Updates variables and returns true if donation can proceed
   async checkCloseByMaxBalance(): Promise<void> {

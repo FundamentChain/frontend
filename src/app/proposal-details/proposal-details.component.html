@@ -3,8 +3,14 @@
 <div class="m-auto bg-white">
 
     <div class="w-[80%] m-auto"> 
-        <div class="bg-white p-8 rounded-lg text-center" *ngIf="countdown && contractOpen">
-            <span class="font-bold">{{ countdown }} </span>
+        <div class="bg-white rounded-lg text-center" *ngIf="countdown && contractOpen">
+            <br/>
+            <div class="bg-brand-background w-full p-3 text-center rounded-lg">
+                
+                <b>Campaign closes in</b>
+                <br/>
+                {{countdown}}
+            </div>
         </div>
 
         <br/>
@@ -15,6 +21,8 @@
             <span><b>Value Raised:</b> {{proposal.amountRequested - missingBalance}} </span>
             <span><b>Value Requested:</b> {{proposal.amountRequested}}</span>
         </div>
+        <br/>
+        <br/>
         <br/>
           
         <div class="flex">

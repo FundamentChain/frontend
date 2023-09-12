@@ -9,6 +9,7 @@ import { MetamaskService } from './metamask.service';
 })
 export class ApiService {
   private apiUrl = 'http://localhost:3000';
+  private baseUrl = 'http://localhost:3000/users';
 
   constructor(
     private http: HttpClient,
@@ -22,8 +23,8 @@ export class ApiService {
     return this.http.get<any[]>(`${this.apiUrl}/proposals/ended_proposals`);
   }
 
-  getProposalDetail(address: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/proposals/${address}`);
+  getProposalDetail(address: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/proposals/${address}`);
   }
 
   putCloseCampaign(campaignAddress: string): void {
@@ -48,13 +49,9 @@ export class ApiService {
     return this.http.put<string>(`${this.apiUrl}/proposals/create_proposal`, body);
   }
 
-  // USERS
-  getUserByWallet(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/${this.metamasService.currentAccount()}`);
-  }
-
-  createUser(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/users`, user);
+  getUserByWallet(wallet: string): Observable<User> {
+    const url = `${this.baseUrl}/${wallet}`;
+    return this.http.get<User>(url);
   }
 
 }

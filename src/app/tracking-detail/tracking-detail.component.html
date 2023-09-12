@@ -1,0 +1,60 @@
+<br/>
+
+<div class="m-auto bg-white">
+
+    <div class="w-[80%] m-auto"> 
+
+        <br/>
+
+        <div class="flex">
+              
+            <div class="w-2/5 overflow-y-auto justify-center">
+                <div class="flex justify-center">
+                    <div class="bg-gray-500 items-center rounded-full h-[20vh] w-[20vh]"></div>
+                </div>
+                <div class="text-center ">
+                    <p class="text-2xl p-5"><b>{{proposal.title}}</b></p>
+                </div>
+            </div>
+            
+            <div class="w-3/5 overflow-y-auto">
+                <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
+                    <b>Amount Requested</b>
+                    <br/>
+                    {{proposal.amountRequested}}
+                </div> 
+                <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
+                    <b>Reciever Address</b>
+                    <br/>
+                    {{proposal.receiverAddress}}</div>
+                <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
+                    <b>Campaign Address</b>
+                    <br/>
+                    {{proposal.proposalAddress}}</div>
+            </div>
+            
+        </div>
+    
+        <br/>
+        <div class="bg-brand-background m-auto mb-10 p-3 rounded-lg">
+            <p>{{ proposal.description }}</p>
+        </div>
+        <br/>
+    </div>
+</div>
+
+<br/>
+
+<div class="m-auto bg-white">
+    <div class="w-[80%] m-auto"> 
+
+        <div class="bg-transparent p-10 flex flex-col items-center justify-center">
+            <h1 class="text-3xl font-bold text-center">{{proposal.title}} campaign ended, Track it</h1>
+            <p class="text-xl text-center m-10">In the future our app will allow tracking the campaign address internelly, for now you can track the reciever's wallet by clicking on the link bellow that will redirect to etherscan.</p>
+            <a href="https://sepolia.etherscan.io/address/{{proposal.receiverAddress}}" class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+                <b class="text-white">Track Campaign Reciever</b>
+            </a>
+          </div>
+            
+    </div>
+</div>

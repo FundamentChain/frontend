@@ -10,9 +10,11 @@ import { ProposalDetailsComponent } from './proposal-details/proposal-details.co
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TrackingComponent } from './tracking/tracking.component';
+import { TrackingDetailComponent } from './tracking-detail/tracking-detail.component';
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 @NgModule({
-  declarations: [AppComponent, PerfilComponent, ProposalsComponent, CreateProposalComponent, ProposalDetailsComponent, DashboardComponent, TrackingComponent],
+  declarations: [AppComponent, PerfilComponent, ProposalsComponent, CreateProposalComponent, ProposalDetailsComponent, DashboardComponent, TrackingComponent, TrackingDetailComponent, UpdateProfileComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

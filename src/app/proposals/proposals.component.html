@@ -2,7 +2,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10">
     <!-- Loop through openProposals -->
     <div *ngFor="let proposal of openProposals" class="bg-white p-4 shadow-md">
-        <img src="../../assets/hospital.jpg" alt="Product 1" class="w-full h-auto">
+        <img src="../../assets/hospital.jpg" class="w-full h-auto">
         <div class="p-4 text-center">
             <p class="text-xl font-semibold mt-2 text-center">{{ proposal.title }}</p>
         </div>
@@ -11,7 +11,7 @@
         </div>
         <br/>
         <div class="attribute">
-            <p class="label">End date: ##########</p>
+            <p class="label">End date: {{timestampToDate(proposal.endTime)}}</p>
         </div>
         <br/>
         <!-- your-component.component.html -->
