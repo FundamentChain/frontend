@@ -67,7 +67,12 @@ export class ProposalDetailsComponent {
   // Triggered when button clicked
   // Button enabled if countdown == 0 or this.missingBalance == 0
   async closeCampaign() {
-    return this.contract.closeCampaign(this.contractAddress);
+    const message = await this.contract.closeCampaign(this.contractAddress);
+    if (message == "Closed Campaign Successfully") {
+      // get updated proposal
+      this.apiService.putCloseCampaign(this.contractAddress);
+    }
+    return message;
   }
 
   // Updates variables and returns true if donation can proceed
@@ -78,15 +83,19 @@ export class ProposalDetailsComponent {
     this.raisedPercentage = Math.round(
       (this.proposal.amountRequested - this.missingBalance) 
       / this.proposal.amountRequested * 100);
-
+    
     this.contractOpen = await this.contract.getCampaignOpen(this.contractAddress);
     if (this.contractOpen){
       this.readyToClose = this.missingBalance == 0 || this.countdownSeconds <= 0;
     }
-    else {clearInterval(this.countdownEvent);}
-    console.log(this.missingBalance);
-    console.log(this.contractOpen);
-    console.log(this.readyToClose);
+    else {
+      clearInterval(this.countdownEvent);
+      if (this.proposal.open) {
+        // open in mongoDb but closed in contract 
+        console.log('tried closing');
+        this.apiService.putCloseCampaign(this.contractAddress);
+      }
+    }
   }
 
     // Countdown to bets closed

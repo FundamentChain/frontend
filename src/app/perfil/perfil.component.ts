@@ -23,15 +23,15 @@ export class PerfilComponent implements OnInit {
   async fetchUserData() {
     const wallet = await this.metamaskService.currentAccountCorreta();
     if (wallet) {
-      this.userService.getUserByWallet(wallet).subscribe(
-        data => {
+      this.userService.getUserByWallet(wallet).subscribe({
+        next: (data) => {
           this.user = data;
         },
-        error => {
+        error: (error) => {
           console.error("Failed to fetch user data:", error);
           // You can add more error handling logic here, for instance, showing a user-friendly error message
         }
-      );
+      });
     }
   }
 }

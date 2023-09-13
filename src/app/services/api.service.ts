@@ -28,9 +28,10 @@ export class ApiService {
   }
 
   putCloseCampaign(campaignAddress: string): void {
-    const body = {campaignAddress};
-    this.http.put<string>(`${this.apiUrl}/proposals/todo`, body);
+    console.log(`closing ${this.apiUrl}/proposals/close_proposal/${campaignAddress}`);
+    this.http.put(`${this.apiUrl}/proposals/close_proposal/${campaignAddress}`, {});
   }
+
 
   putCreateCampaign(
     proposalName: string,
