@@ -12,6 +12,8 @@ export class MetamaskService {
   balance = signal('');
   provider: ethers.providers.Web3Provider | undefined;
   signer: ethers.Signer | undefined;
+  currentAddress: string | null = null;
+  
 
   checkMetamaskAvailability() {
     try {
@@ -39,6 +41,7 @@ export class MetamaskService {
       this.handleAccountsChanged();
       this.handleChainChanged();
       this.getBalance();
+      this.currentAddress = await this.currentAccountCorreta();
     }
   }
 

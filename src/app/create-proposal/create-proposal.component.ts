@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { MetamaskService } from '../services/metamask.service';
 
 @Component({
   selector: 'app-create-proposal',
@@ -10,27 +11,31 @@ export class CreateProposalComponent {
 
   hash: string = ''
 
-  constructor (private apiService: ApiService) {}
+  constructor (
+    private apiService: ApiService, 
+    private metamaskService: MetamaskService) {}
 
-  createProposal(
-    proposalName: string,
-    amountRequested: string,
-    timestamp: string,
-    category: string,
+  async createProposal(
+    title: string,
     description: string,
-    ): void {
-      this.apiService.putCreateCampaign(
-        proposalName,
-        amountRequested,
-        timestamp,
-        category,
-        description
+    endTime: string,
+    amountRequested: string,
+    ): Promise<void> {
+      const address = await this.metamaskService.currentAccountCorreta();
+      this.apiService.postCreateCampaign(
+        this.metamaskService.currentAddress,
+        title,
+        description,
+        Number(endTime),
+        Number(amountRequested)
       ).subscribe({
         next: (response) => {
           this.hash = response;
+          console.error('Hash:', this.hash);
         },
         error: (error) =>  {
           console.error('Error creating proposal:', error);
+          this.hash = error;
         }
       });
     }

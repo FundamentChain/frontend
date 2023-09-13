@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user.model';
 import { Observable } from 'rxjs';
 import { MetamaskService } from './metamask.service';
@@ -10,10 +10,13 @@ import { MetamaskService } from './metamask.service';
 export class ApiService {
   private apiUrl = 'http://localhost:3000';
   private baseUrl = 'http://localhost:3000/users';
+  httpHeader = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
-  constructor(
-    private http: HttpClient,
-    private metamasService : MetamaskService) {}
+  constructor(private http: HttpClient) {}
 
   getOpenProposals(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/proposals/live_proposals`);
@@ -28,26 +31,26 @@ export class ApiService {
   }
 
   putCloseCampaign(campaignAddress: string): void {
-    console.log(`closing ${this.apiUrl}/proposals/close_proposal/${campaignAddress}`);
-    this.http.put(`${this.apiUrl}/proposals/close_proposal/${campaignAddress}`, {});
+    console.log(`closing ${this.apiUrl}/proposals/close_proposal`);
+    this.http.put(`${this.apiUrl}/proposals/close_proposal`, {"address": campaignAddress}, this.httpHeader);
   }
 
-
-  putCreateCampaign(
-    proposalName: string,
-    amountRequested: string,
-    timestamp: string,
-    category: string,
-    description: string
+  postCreateCampaign(
+    receiverAddress: string | null,
+    title: string,
+    description: string,
+    endTime: number,
+    amountRequested: number,
   ): Observable<string> {
     const body = {
-      proposalName,
-      amountRequested,
-      timestamp,
-      category,
-      description
+      "receiverAddress": receiverAddress,
+      "title": title,
+      "description": description,
+      "endTime": endTime,
+      "amountRequested": amountRequested
     };
-    return this.http.put<string>(`${this.apiUrl}/proposals/create_proposal`, body);
+    console.log(body);
+    return this.http.post<string>(`${this.apiUrl}/proposals/create_proposal`, body, this.httpHeader);
   }
 
   getUserByWallet(wallet: string): Observable<User> {
