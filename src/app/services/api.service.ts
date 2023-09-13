@@ -53,5 +53,7 @@ export class ApiService {
     const url = `${this.baseUrl}/${wallet}`;
     return this.http.get<User>(url);
   }
+  
+
 
 }

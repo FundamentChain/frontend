@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class MetamaskService {
   currentChainId = signal('');
   currentAccount = signal('');
+  
   balance = signal('');
   provider: ethers.providers.Web3Provider | undefined;
   signer: ethers.Signer | undefined;
@@ -88,5 +89,14 @@ export class MetamaskService {
 
   async createProfileForWallet(walletAddress: string) {
     return this.http.post(`${this.baseUrl}/users`, { address: walletAddress }).toPromise();
+  }
+
+  async currentAccountCorreta() {
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      if (accounts && accounts.length > 0) {
+        // Convert the Ethereum address to checksum format
+        return ethers.utils.getAddress(accounts[0]);
+      }
+    return null;
   }
 }

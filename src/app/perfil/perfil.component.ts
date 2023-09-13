@@ -1,6 +1,6 @@
+
 import { Component, OnInit } from '@angular/core';
-import { User } from '../services/user.model';
-import UserService from '../services/user.service';
+import { UserService } from '../services/user.service';
 import { MetamaskService } from '../services/metamask.service';
 
 @Component({
@@ -8,25 +8,31 @@ import { MetamaskService } from '../services/metamask.service';
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
-
 export class PerfilComponent implements OnInit {
+  user: any;
 
-  user?: User;
-  
   constructor(
     private userService: UserService,
-    private metamaskService: MetamaskService) {}
+    private metamaskService: MetamaskService
+  ) { }
 
   ngOnInit(): void {
-    // Assuming you have the wallet value for this example
-    
-    const wallet = this.metamaskService.currentAccount().toString();
-    this.userService.fetchUserByWallet(wallet);
+    this.fetchUserData();
+  }
 
-    this.userService.user$.subscribe(data => {
-      this.user = data;
-      console.log(data);
-    });
+  async fetchUserData() {
+    const wallet = await this.metamaskService.currentAccountCorreta();
+    if (wallet) {
+      this.userService.getUserByWallet(wallet).subscribe(
+        data => {
+          this.user = data;
+        },
+        error => {
+          console.error("Failed to fetch user data:", error);
+          // You can add more error handling logic here, for instance, showing a user-friendly error message
+        }
+      );
+    }
   }
 }
 

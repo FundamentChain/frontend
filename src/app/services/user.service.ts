@@ -1,24 +1,26 @@
-import { Injectable, OnInit } from '@angular/core';
-import { User } from './user.model';
-import { ApiService } from './api.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private _user = new BehaviorSubject<User | undefined>(undefined);
+  private apiURL ='http://localhost:3000';
+  constructor(private http: HttpClient) { }
 
-  get user$(): Observable<User | undefined> {
-    return this._user.asObservable();
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiURL}/users`);
   }
 
-  constructor(private apiService: ApiService) {}
-
-  async fetchUserByWallet(wallet: string): Promise<void> { 
-    this.apiService.getUserByWallet(wallet).subscribe(data => {
-      this._user.next(data);
-    });
+  getUserByWallet(wallet: string): Observable<any> {
+    console.log("carteira user service",wallet);
+    console.log(`${this.apiURL}/users/search?wallet=${wallet}`);
+    console.log(this.http.get<any>(`${this.apiURL}/users/search?wallet=${wallet}`));
+    
+    
+    return this.http.get<any>(`${this.apiURL}/users/search?wallet=${wallet}`);
+    
+    
   }
 }
-export default UserService;
