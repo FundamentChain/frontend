@@ -10,6 +10,7 @@ import { MetamaskService } from './metamask.service';
 export class ApiService {
   private apiUrl = 'http://localhost:3000';
   private baseUrl = 'http://localhost:3000/users';
+  
   httpHeader = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

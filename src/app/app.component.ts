@@ -4,6 +4,7 @@ import { Component, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TokenBalance } from 'alchemy-sdk';
 import { ethers } from 'ethers';
+import { UserService } from './services/user.service';
 
 
 declare global {
@@ -28,15 +29,13 @@ export class AppComponent {
   user: any;
   hasMetamask;
   hasKyc: boolean = false;
-  
-
-  private apiUrl = 'http://localhost:3000/api';
 
   constructor(
-    private http: HttpClient,
+    private userService: UserService,
     private metamaskService: MetamaskService,
     private alchemyService: AlchemyService
   ) {
+
     this.hasMetamask = metamaskService.checkMetamaskAvailability();
     if (this.hasMetamask) {
       metamaskService.retrieveConnection();
@@ -51,13 +50,26 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    this.fetchUserData();
   }
 
   connectWallet() {
      this.metamaskService.connectWallet();
   }
 
-  getUser() {
-    return this.http.get<any>(`${this.apiUrl}/users/${this.currentAccount}`);
+  async fetchUserData() {
+    const wallet = await this.metamaskService.currentAccountCorreta();
+    if (wallet) {
+      this.userService.getUserByWallet(wallet).subscribe({
+        next: (data: any) => {
+          console.log(data)
+          this.user = data;
+        },
+        error: (error: any) => {
+          console.error("Failed to fetch user data:", error);
+          // You can add more error handling logic here, for instance, showing a user-friendly error message
+        }
+      });
+    }
   }
 }

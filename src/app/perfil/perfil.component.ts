@@ -25,6 +25,7 @@ export class PerfilComponent implements OnInit {
     if (wallet) {
       this.userService.getUserByWallet(wallet).subscribe({
         next: (data) => {
+          console.log(data)
           this.user = data;
         },
         error: (error) => {

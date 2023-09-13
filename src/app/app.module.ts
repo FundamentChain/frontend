@@ -12,9 +12,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TrackingComponent } from './tracking/tracking.component';
 import { TrackingDetailComponent } from './tracking-detail/tracking-detail.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { UsersListComponent } from './users-list/users-list.component';
+import { UsersDetailComponent } from './users-detail/users-detail.component';
 
 @NgModule({
-  declarations: [AppComponent, PerfilComponent, ProposalsComponent, CreateProposalComponent, ProposalDetailsComponent, DashboardComponent, TrackingComponent, TrackingDetailComponent, UpdateProfileComponent],
+  declarations: [AppComponent, PerfilComponent, ProposalsComponent, CreateProposalComponent, ProposalDetailsComponent, DashboardComponent, TrackingComponent, TrackingDetailComponent, UpdateProfileComponent, UsersListComponent, UsersDetailComponent],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

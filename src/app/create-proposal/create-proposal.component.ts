@@ -23,7 +23,7 @@ export class CreateProposalComponent {
     ): Promise<void> {
       const address = await this.metamaskService.currentAccountCorreta();
       this.apiService.postCreateCampaign(
-        this.metamaskService.currentAddress,
+        address,
         title,
         description,
         Number(endTime),

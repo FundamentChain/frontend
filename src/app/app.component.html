@@ -74,53 +74,51 @@
 
     <div class="w-1/5 h-screen overflow-y-auto border border-gray-300 shadow-lg p-4 bg-white">
         <ul class="mt-12">
-        <li>
-            <a routerLink="dashboard" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
-            <b>Dashboard</b>
+          <li>
+              <a routerLink="dashboard" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+              <b>Dashboard</b>
+              </a>
+          </li>
+          <li>
+              <a routerLink="/proposals" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+              <b>Open Campaigns</b>
+              </a>
+          </li>
+          <li>
+              <a routerLink="/tracking" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+              <b>Closed Campaigns</b>
+              </a>
+          </li>
+          <li>
+            <a routerLink="/users" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+            <b>Users</b>
             </a>
         </li>
-        <li>
-            <a routerLink="/proposals" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
-            <b>Open Campaigns</b>
+          <li>
+              <a routerLink="/perfil" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+              <b>Profile</b>
+              </a>
+          </li>
+          <li>
+            <a routerLink="/create-proposal" class="block text-center rounded py-5 my-5 bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110"> <!--*ngIf="hasKyc" -->
+              <b class="text-white">Create Proposal</b>
             </a>
-        </li>
-        <li>
-            <a routerLink="/tracking" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
-            <b>Closed Campaigns</b>
-            </a>
-        </li>
-        <li>
-            <a routerLink="/perfil" class="block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
-            <b>Profile</b>
-            </a>
-        </li>
-        <li>
-          <a routerLink="/create-proposal" class="block text-center rounded py-5 my-5 bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110"> <!--*ngIf="hasKyc" -->
-            <b class="text-white">Create Proposal</b>
-          </a>
-        </li>
+          </li>
         </ul>
       
-      
-  
         <div class="flex justify-center mt-20">
-          <div class="bg-custom-image items-center rounded-full h-[20vh] w-[20vh]">
-          </div>
-        </div>
-        <div class="text-center">
-          <p class="text-2xl p-5"><b>Profile</b></p>
           <div *ngIf="user">
-            <h1>{{ user.usermane }}</h1>
-            <img [src]="user.image" alt="User Image">
-            <p>Email: {{ user.email }}</p>
-            <p>Description: {{ user.description }}</p>
-            <p>Wallet: {{ user.wallet }}</p>
-            <p>Registration Date: {{ user.registrationDate | date }}</p>
-            <!-- you can add other fields similarly -->
+            <br/>
+            <div class="flex justify-center items-center">
+              <img src="{{ user.image }}" class="rounded-full w-[60%] m-auto" />
+            </div>
+            <div class="text-center ">
+              <p class="text-2xl p-5"><b>{{ user.usermane }}</b></p>
+            </div>
+
           </div>
         </div>
       
-        
     </div>
 
     <!-- Scrollable Main Content (80% width) -->

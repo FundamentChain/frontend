@@ -1,4 +1,3 @@
-
 <br/>
 <div class="m-auto bg-white text-center">
 
@@ -11,11 +10,11 @@
         <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef1 placeholder="Username">
         <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef2 placeholder="Email">
         <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef3 placeholder="Description">
-        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef4 placeholder="Image link">
+        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef4 placeholder="IPFS Image link">
     </div>
 
     <br/>
-    <button class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+    <button class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110" (click)="updateUser(inputRef1.value, inputRef2.value, inputRef3.value, inputRef4.value)">
         <b class="text-white">Update Profile</b>
     </button>
 </div>

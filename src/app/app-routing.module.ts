@@ -8,6 +8,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TrackingComponent } from './tracking/tracking.component';
 import { TrackingDetailComponent } from './tracking-detail/tracking-detail.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { UsersListComponent } from './users-list/users-list.component';
+import { UsersDetailComponent } from './users-detail/users-detail.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'proposals', component: ProposalsComponent },
   { path: 'tracking', component: TrackingComponent },
   { path: 'tracking/:address', component: TrackingDetailComponent },
+  { path: 'users', component: UsersListComponent },
+  { path: 'users/:address', component: UsersDetailComponent },
   { path: 'create-proposal', component: CreateProposalComponent },
   { path: 'proposal-details/:address', component: ProposalDetailsComponent },
   { path: '', redirectTo: '/proposals', pathMatch: 'full' },
