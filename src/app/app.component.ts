@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { TokenBalance } from 'alchemy-sdk';
 import { ethers } from 'ethers';
 import { UserService } from './services/user.service';
+import { IpfsService } from './services/ipfs.service';
 
 
 declare global {
@@ -29,11 +30,13 @@ export class AppComponent {
   user: any;
   hasMetamask;
   hasKyc: boolean = false;
+  profilePictureUrl = "";
 
   constructor(
     private userService: UserService,
     private metamaskService: MetamaskService,
-    private alchemyService: AlchemyService
+    private alchemyService: AlchemyService,
+    private ipfsService: IpfsService
   ) {
 
     this.hasMetamask = metamaskService.checkMetamaskAvailability();
@@ -62,14 +65,18 @@ export class AppComponent {
     if (wallet) {
       this.userService.getUserByWallet(wallet).subscribe({
         next: (data: any) => {
-          console.log(data)
           this.user = data;
+          this.fetchProfilePicture()
         },
         error: (error: any) => {
           console.error("Failed to fetch user data:", error);
-          // You can add more error handling logic here, for instance, showing a user-friendly error message
         }
       });
     }
+  }
+
+  async fetchProfilePicture() {
+    const file = await this.ipfsService.retrieveFile(this.user.image);
+    this.profilePictureUrl = URL.createObjectURL(file);
   }
 }

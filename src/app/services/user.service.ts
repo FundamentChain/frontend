@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MetamaskService } from './metamask.service';
+import { IpfsService } from './ipfs.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,9 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private MetamaskService: MetamaskService) { }
+    private MetamaskService: MetamaskService,
+    private ipfsService: IpfsService) {
+    }
 
   getAllUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/users`);

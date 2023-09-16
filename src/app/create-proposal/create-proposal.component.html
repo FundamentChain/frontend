@@ -11,7 +11,27 @@
         <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef1 placeholder="Campaign Title">
         <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef2 placeholder="Description">
         <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef3 placeholder="Amount requested">
-        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef4 placeholder="Timestamp">  
+        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef4 placeholder="Timestamp"> 
+
+        <br/>
+
+        <div class="border-2 border-brand-primary-500 rounded-lg p-4 mt-8">
+            <p>Append files to your campaign</p>
+            <div class="flex items-center justify-center space-x-4">
+                <input type="file" class="hidden" id="fileInput" (change)="onFileSelected($event)">
+                <label for="fileInput" class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+                    Choose File
+                </label>
+                <button (click)="uploadFile()" class="w-full block text-center rounded py-5 my-5 bg-brand-primary text-white hover:bg-brand-secondary transition-transform duration-500 ease-in-out transform hover:scale-110">
+                    Upload to IPFS
+                </button>
+            </div>
+            <div *ngIf="cid">
+                <br/>
+                <p>{{cid}}</p>
+                <br/>
+            </div>
+        </div>
     </div>
 
     <button class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110" (click)="createProposal(inputRef1.value, inputRef2.value, inputRef4.value, inputRef3.value)">

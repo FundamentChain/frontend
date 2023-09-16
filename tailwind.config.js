@@ -12,8 +12,9 @@ module.exports = {
           "primary": "#6528F7",
           "secondary": "#A076F9",
           "light": "#D7BBF5",
-          "background": "#EDE4FF"
-
+          "background": "#EDE4FF",
+          "ipfs-light": "#429395",
+          "ipfs-dark": "#306D70"
         },
       },
     },

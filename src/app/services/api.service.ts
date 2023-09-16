@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user.model';
 import { Observable } from 'rxjs';
-import { MetamaskService } from './metamask.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +37,7 @@ export class ApiService {
 
   postCreateCampaign(
     receiverAddress: string | null,
+    ipfsCid: string | null,
     title: string,
     description: string,
     endTime: number,
@@ -45,6 +45,7 @@ export class ApiService {
   ): Observable<string> {
     const body = {
       "receiverAddress": receiverAddress,
+      "ipfsCid": ipfsCid,
       "title": title,
       "description": description,
       "endTime": endTime,

@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { MetamaskService } from '../services/metamask.service';
+import { IpfsService } from '../services/ipfs.service';
 
 @Component({
   selector: 'app-perfil',
@@ -10,10 +11,12 @@ import { MetamaskService } from '../services/metamask.service';
 })
 export class PerfilComponent implements OnInit {
   user: any;
+  profilePictureUrl = "";
 
   constructor(
     private userService: UserService,
-    private metamaskService: MetamaskService
+    private metamaskService: MetamaskService,
+    private ipfsService: IpfsService
   ) { }
 
   ngOnInit(): void {
@@ -27,13 +30,18 @@ export class PerfilComponent implements OnInit {
         next: (data) => {
           console.log(data)
           this.user = data;
+          this.fetchProfilePicture();
         },
         error: (error) => {
           console.error("Failed to fetch user data:", error);
-          // You can add more error handling logic here, for instance, showing a user-friendly error message
         }
       });
     }
+  }
+
+  async fetchProfilePicture() {
+    const file = await this.ipfsService.retrieveFile(this.user.image);
+    this.profilePictureUrl = URL.createObjectURL(file);
   }
 }
 
