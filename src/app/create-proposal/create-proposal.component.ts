@@ -10,7 +10,11 @@ import { MetamaskService } from '../services/metamask.service';
 })
 export class CreateProposalComponent {
 
+  // Transaction
+  finished = false;
   hash: string = '';
+
+  // IPFS
   cid: string = '';
   selectedFile: File | null = null;
 
@@ -19,6 +23,7 @@ export class CreateProposalComponent {
     private metamaskService: MetamaskService,
     private ipfsService: IpfsService) {}
 
+  // Function to create a Campaign calling the backend API 
   async createProposal(
     title: string,
     description: string,
@@ -35,21 +40,25 @@ export class CreateProposalComponent {
         Number(amountRequested)
       ).subscribe({
         next: (response) => {
+          this.finished = true;
           this.hash = response;
           console.error('Hash:', this.hash);
         },
         error: (error) =>  {
-          console.error('Error creating proposal:', error);
+          this.finished = true;
           this.hash = error;
+          console.error('Error creating proposal:', error);
         }
       });
     }
 
+  // Function to change the file to be uploaded to IPFS
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
     console.log(this.selectedFile);
   }
   
+  // Function to upload to IPFS
   uploadFile() {
     if (this.selectedFile) {
       this.ipfsService.uploadFile(this.selectedFile).subscribe(

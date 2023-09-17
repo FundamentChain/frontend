@@ -18,8 +18,8 @@
             <div class="h-full bg-brand-primary rounded-full" [style.width.%]="raisedPercentage"></div>
         </div>
         <div class="flex justify-between">
-            <span><b>Value Raised:</b> {{proposal.amountRequested - missingBalance}} </span>
-            <span><b>Value Requested:</b> {{proposal.amountRequested}}</span>
+            <span><b>Value Raised:</b> {{campaign.amountRequested - missingBalance}} </span>
+            <span><b>Value Requested:</b> {{campaign.amountRequested}}</span>
         </div>
         <br/>
         <br/>
@@ -32,7 +32,7 @@
                     <div class="bg-gray-500 items-center rounded-full h-[20vh] w-[20vh]"></div>
                 </div>
                 <div class="text-center ">
-                    <p class="text-2xl p-5"><b>{{proposal.title}}</b></p>
+                    <p class="text-2xl p-5"><b>{{campaign.title}}</b></p>
                 </div>
             </div>
             
@@ -40,23 +40,23 @@
                 <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
                     <b>Amount Requested</b>
                     <br/>
-                    {{proposal.amountRequested}}
+                    {{campaign.amountRequested}}
                 </div> 
                 <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
                     <b>Reciever Address</b>
                     <br/>
-                    {{proposal.receiverAddress}}</div>
+                    {{campaign.receiverAddress}}</div>
                 <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
                     <b>Campaign Address</b>
                     <br/>
-                    {{proposal.proposalAddress}}</div>
+                    {{campaign.proposalAddress}}</div>
             </div>
             
         </div>
     
         <br/>
         <div class="bg-brand-background m-auto mb-10 p-3 rounded-lg">
-            <p>{{ proposal.description }}</p>
+            <p>{{ campaign.description }}</p>
         </div>
         <br/>
         

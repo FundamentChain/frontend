@@ -2,19 +2,19 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10">
 
     <!-- Loop through endedProposals -->
-    <div *ngFor="let proposal of endedProposals" class="bg-white p-4 shadow-md">
+    <div *ngFor="let campaign of endedCampaigns" class="bg-white p-4 shadow-md">
         <img src="../../assets/hospital.jpg" alt="Product 1" class="w-full h-auto">
         <div class="p-4 text-center">
-            <p class="text-xl font-semibold mt-2 text-center">{{ proposal.title }}</p>
+            <p class="text-xl font-semibold mt-2 text-center">{{ campaign.title }}</p>
         </div>
         <div class="attribute">
-            <p>Amount Requested: {{ proposal.amountRequested }}</p>
+            <p>Amount Requested: {{ campaign.amountRequested }}</p>
         </div>
         <br/>
         <div class="attribute">
-            <p>End date: {{timestampToDate(proposal.endTime)}}</p>
+            <p>End date: {{timestampToDate(campaign.endTime)}}</p>
         </div>
         <br/>
-        <button (click)="proposalDetail(proposal.proposalAddress)" class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110"><b>Track</b></button>
+        <button (click)="campaignDetail(campaign.proposalAddress)" class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110"><b>Track</b></button>
     </div>
 </div>

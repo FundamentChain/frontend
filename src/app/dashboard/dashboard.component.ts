@@ -1,8 +1,5 @@
 import * as echarts from 'echarts';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ApiService } from '../services/api.service';
-import { MetamaskService } from '../services/metamask.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,25 +7,17 @@ import { MetamaskService } from '../services/metamask.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  openProposals?: any[];
-  endedProposals?: any[];
 
-  constructor(
-    private apiService: ApiService,
-    private router: Router,
-    private mService: MetamaskService) {
-    this.openProposals = [];
-    this.endedProposals = [];
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    this.pieChart();
-    this.lineChart();
-    this.areaMoneyChart();
-    this.areaUsersChart();
+    this.chart_1_1();
+    this.chart_1_2();
+    this.chart_2_1();
+    this.chart_2_2();
   }
 
-  pieChart() {
+  chart_1_1() {
     const chartContainer = document.getElementById('pie-container');
     const myChart = echarts.init(chartContainer);
 
@@ -76,7 +65,7 @@ export class DashboardComponent {
     myChart.setOption(options);
   }
 
-  lineChart() {
+  chart_1_2() {
     const chartContainer = document.getElementById('line-container');
     const myChart = echarts.init(chartContainer);
 
@@ -138,7 +127,7 @@ export class DashboardComponent {
     myChart.setOption(options);
   }
 
-  areaMoneyChart() {
+  chart_2_1() {
 
     const chartContainer = document.getElementById('area-money-container');
     const myChart = echarts.init(chartContainer);
@@ -222,7 +211,7 @@ export class DashboardComponent {
     myChart.setOption(options);
   }
 
-  areaUsersChart() {
+  chart_2_2() {
 
     const chartContainer = document.getElementById('area-users-container');
     const myChart = echarts.init(chartContainer);
@@ -305,15 +294,5 @@ export class DashboardComponent {
 
     myChart.setOption(options);
   }
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -18,21 +18,25 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  getOpenProposals(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/proposals/live_proposals`);
+  getOpenCampaigns(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/campaigns/open`);
   }
 
-  getEndedProposals(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/proposals/ended_proposals`);
+  getEndedCampaigns(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/campaigns/closed`);
   }
 
-  getProposalDetail(address: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/proposals/${address}`);
+  getCampaignDetail(address: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/campaigns/detail/${address}`);
   }
 
-  putCloseCampaign(campaignAddress: string): void {
-    console.log(`closing ${this.apiUrl}/proposals/close_proposal`);
-    this.http.put(`${this.apiUrl}/proposals/close_proposal`, {"address": campaignAddress}, this.httpHeader);
+  getUserCampaigns(address: string | null): Observable<any[]> {
+    console.log(`${this.apiUrl}/campaigns/users${address}`);
+    return this.http.get<any[]>(`${this.apiUrl}/campaigns/user/${address}`);
+  }
+
+  putCloseCampaign(campaignAddress: string | null): void {
+    this.http.put(`${this.apiUrl}/campaigns/close`, {"address": campaignAddress}, this.httpHeader);
   }
 
   postCreateCampaign(
@@ -52,7 +56,7 @@ export class ApiService {
       "amountRequested": amountRequested
     };
     console.log(body);
-    return this.http.post<string>(`${this.apiUrl}/proposals/create_proposal`, body, this.httpHeader);
+    return this.http.post<string>(`${this.apiUrl}/campaigns/create`, body, this.httpHeader);
   }
 
   getUserByWallet(wallet: string): Observable<User> {

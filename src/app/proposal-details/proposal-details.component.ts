@@ -10,7 +10,7 @@ import { ContractServiceService } from '../services/contract-service.service';
 })
 export class ProposalDetailsComponent {
 
-  proposal?: any;
+  campaign?: any;
   contractAddress: any;
   contractOpen: any = false; // campaign closed in contract
   readyToClose: any = false;  // campaign ready to close 
@@ -32,13 +32,13 @@ export class ProposalDetailsComponent {
 
   async ngOnInit() {
     this.contractAddress = this.route.snapshot.paramMap.get('address') ?? "";
-    this.getProposalDetail(this.contractAddress);
+    this.getCampaignDetail(this.contractAddress);
   }
 
-  getProposalDetail(address:string): void {
-    this.apiService.getProposalDetail(address).subscribe({
+  getCampaignDetail(address:string): void {
+    this.apiService.getCampaignDetail(address).subscribe({
       next: (response) => {
-        this.proposal = response;
+        this.campaign = response;
 
         // set the rest of tasks 
         this.checkCloseByMaxBalance();
@@ -81,8 +81,8 @@ export class ProposalDetailsComponent {
     // if (typeof this.missingBalance == 'string') {return 'Error'} // assert 
 
     this.raisedPercentage = Math.round(
-      (this.proposal.amountRequested - this.missingBalance) 
-      / this.proposal.amountRequested * 100);
+      (this.campaign.amountRequested - this.missingBalance) 
+      / this.campaign.amountRequested * 100);
     
     this.contractOpen = await this.contract.getCampaignOpen(this.contractAddress);
     if (this.contractOpen){
@@ -90,8 +90,7 @@ export class ProposalDetailsComponent {
     }
     else {
       clearInterval(this.countdownEvent);
-      if (this.proposal.open) {
-        // open in mongoDb but closed in contract 
+      if (this.campaign.open) {
         console.log('tried closing');
         this.apiService.putCloseCampaign(this.contractAddress);
       }
@@ -100,7 +99,7 @@ export class ProposalDetailsComponent {
 
     // Countdown to bets closed
     updateCountdown() {
-      this.countdownSeconds = Math.floor(Number(this.proposal.endTime) - Number(Date.now()) / 1000);
+      this.countdownSeconds = Math.floor(Number(this.campaign.endTime) - Number(Date.now()) / 1000);
       if (this.countdownSeconds <= 0) {
         this.checkCloseByMaxBalance();
         clearInterval(this.countdownEvent);

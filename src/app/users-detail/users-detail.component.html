@@ -1,45 +1,75 @@
 
 <div class="m-auto p-4">
+  <div class="w-full bg-white">      
+    <div *ngIf="user">
 
-    <div class="w-full bg-white">
-        
-      <div *ngIf="user">
-        <div class="flex">
+      <div class="flex">
             
-          <div class="w-2/5 overflow-y-auto justify-center p-20">
-            <div class="flex justify-center items-center">
-              <img src="{{ user.image }}" alt="User Image" class="h-[25vh] rounded-full w-[25vh] rounded-full" />
-            </div>
-            
-            <div class="text-center ">
-              <p class="text-2xl p-5"><b>{{ user.usermane }}</b></p>
-            </div>
+        <div class="w-2/5 overflow-y-auto justify-center p-20">
+          <div class="flex justify-center items-center">
+            <img src="{{ user.image }}" alt="User Image" class="h-[25vh] rounded-full w-[25vh] rounded-full" />
           </div>
+            
+          <div class="text-center ">
+            <p class="text-2xl p-5"><b>{{ user.usermane }}</b></p>
+          </div>
+        </div>
           
-          <div class="w-3/5 overflow-y-auto p-20">
-            <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
-              <b>Email</b>
-              <br/>
-              {{user.email}}
-            </div> 
-            <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
-              <b>User wallet</b>
-              <br/>
-              {{user.wallet}}</div>
-            <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
-              <b>Registration date</b>
-              <br/>
-              {{user.registrationDate | date}}</div>
-            </div>  
+        <div class="w-3/5 overflow-y-auto p-20">
+          <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
+            <b>Email</b>
+            <br/>
+            {{user.email}}
+          </div> 
+          <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
+            <b>User wallet</b>
+            <br/>
+            {{user.wallet}}
+          </div>
+          <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
+            <b>Registration date</b>
+            <br/>
+            {{user.registrationDate | date}}
+          </div>
+        </div>  
+        
+      </div>
+        
+      <br/>
+
+      <div class="bg-brand-background m-auto mb-10 p-3 rounded-lg w-[80%]">
+          <p>{{ user.description }}</p>
+      </div>
+      
+      <br/>
+
+    </div>
+  </div>
+
+  <div class="mt-20" *ngIf="campaigns">
+    <b class="text-2xl">User Campaigns</b>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10 mt-10">
+
+      <div *ngFor="let campaign of campaigns" class="bg-white p-4 shadow-md">
+        <img src="../../assets/hospital.jpg" alt="Product 1" class="w-full h-auto">
+        <div class="p-4 text-center">
+          <p class="text-xl font-semibold mt-2 text-center">{{ campaign.title }}</p>
+        </div>
+        <div class="attribute">
+          <p>Amount Requested: {{ campaign.amountRequested }}</p>
         </div>
         <br/>
-  
-        <div class="bg-brand-background m-auto mb-10 p-3 rounded-lg w-[80%]">
-            <p>{{ user.description }}</p>
+        <div class="attribute">
+          <p>End date: {{timestampToDate(campaign.endTime)}}</p>
         </div>
-        <br/> 
-        
+        <br/>
+        <button (click)="campaignDetail(campaign.proposalAddress)" class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110"><b>View</b></button>
+      </div>
+
+    </div>
   </div>
+</div>
+
   
   
     

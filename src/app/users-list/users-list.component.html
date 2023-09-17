@@ -1,8 +1,7 @@
 <br/>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10">
-
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10">      
     <div *ngFor="let user of users" class="bg-white p-4 shadow-md">
-        <img src="{{user.image}}" alt="Product 1" class="h-[18vh] rounded-full w-[18vh] m-auto">
+        <img src="{{user.image}}" class="h-[18vh] rounded-full w-[18vh] m-auto">
         <div class="p-4 text-center">
             <p class="text-xl font-semibold mt-2 text-center">{{ user.usermane }}</p>
         </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { MetamaskService } from './metamask.service';
 import { IpfsService } from './ipfs.service';
 
@@ -19,15 +19,29 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private MetamaskService: MetamaskService,
-    private ipfsService: IpfsService) {
-    }
+    private ipfsService: IpfsService) { }
 
   getAllUsers(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/users`);
+    return this.http.get<any[]>(`${this.apiUrl}/users`).pipe(
+      switchMap(async (users: any[]) => {
+        const modifiedUsers = await Promise.all(users.map(async (user) => {
+          const file = await this.ipfsService.retrieveFile(user.image);
+          user.image = URL.createObjectURL(file);
+          return user;
+        }));
+        return modifiedUsers;
+      })
+    );
   }
-
+  
   getUserByWallet(wallet: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/users/search/${wallet}`);
+    return this.http.get<any>(`${this.apiUrl}/users/search/${wallet}`).pipe(
+      switchMap(async (user: any) => {
+        const file = await this.ipfsService.retrieveFile(user.image);
+        user.image = URL.createObjectURL(file);
+        return user;
+      })
+    );
   }
 
   async putUpdateUser(

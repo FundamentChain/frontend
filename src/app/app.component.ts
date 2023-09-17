@@ -30,7 +30,6 @@ export class AppComponent {
   user: any;
   hasMetamask;
   hasKyc: boolean = false;
-  profilePictureUrl = "";
 
   constructor(
     private userService: UserService,
@@ -66,7 +65,6 @@ export class AppComponent {
       this.userService.getUserByWallet(wallet).subscribe({
         next: (data: any) => {
           this.user = data;
-          this.fetchProfilePicture()
         },
         error: (error: any) => {
           console.error("Failed to fetch user data:", error);
@@ -75,8 +73,4 @@ export class AppComponent {
     }
   }
 
-  async fetchProfilePicture() {
-    const file = await this.ipfsService.retrieveFile(this.user.image);
-    this.profilePictureUrl = URL.createObjectURL(file);
-  }
 }

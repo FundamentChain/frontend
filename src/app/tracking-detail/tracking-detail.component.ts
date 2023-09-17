@@ -19,11 +19,11 @@ export class TrackingDetailComponent {
 
   async ngOnInit() {
     this.contractAddress = this.route.snapshot.paramMap.get('address') ?? "";
-    this.getProposalDetail(this.contractAddress);
+    this.getCampaignDetail(this.contractAddress);
   }
 
-  getProposalDetail(address:string): void {
-    this.apiService.getProposalDetail(address).subscribe({
+  getCampaignDetail(address:string): void {
+    this.apiService.getCampaignDetail(address).subscribe({
       next: (response: any) => {
         this.proposal = response;
       },

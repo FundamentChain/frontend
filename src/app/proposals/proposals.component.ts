@@ -10,22 +10,22 @@ import { Router } from '@angular/router';
 
 export class ProposalsComponent implements OnInit {
   
-  openProposals?: any[];
+  openCampaigns?: any[];
 
   constructor(
     private apiService: ApiService,
     private router: Router) {
-    this.openProposals = [];
+    this.openCampaigns = [];
   }
 
   ngOnInit(): void {
-    this.getOpenProposals();
+    this.getOpenCampaigns();
   }
 
-  getOpenProposals(): void {
-    this.apiService.getOpenProposals().subscribe({
+  getOpenCampaigns(): void {
+    this.apiService.getOpenCampaigns().subscribe({
       next: (response) => {
-        this.openProposals = response
+        this.openCampaigns = response
       },
       error: (error) => {
         console.error('Error fetching open proposals:', error);
@@ -33,7 +33,7 @@ export class ProposalsComponent implements OnInit {
     });
   }
 
-  proposalDetail(address: string): void {
+  campaignDetail(address: string): void {
     this.router.navigate(['/proposal-details', address]);
   }
 

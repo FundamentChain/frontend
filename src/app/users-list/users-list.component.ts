@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { IpfsService } from '../services/ipfs.service';
 
 @Component({
   selector: 'app-users-list',
@@ -10,31 +10,27 @@ import { Router } from '@angular/router';
 })
 export class UsersListComponent {
 
-  users?: any[];
+  users?: any[] = [];
+  images: string[] = [];
 
   constructor(
     private UserService: UserService,
+    private ipfsService: IpfsService,
     private router: Router
   ) {}
 
   async ngOnInit() {
-    this.getUsers()
+    this.getUsers();
   }
 
-  getUsers(): void {
-    this.UserService.getAllUsers().subscribe({
-      next: (response) => {
-        this.users = response;
-      },
-      error: (error) =>  {
-        console.error('Error fetching ended proposals:', error);
-      }
+  async getUsers(): Promise<void> {
+    this.UserService.getAllUsers().subscribe((data: any) => {
+      this.users = data;
     });
   }
 
   userDetail(address: string): void {
     this.router.navigate(['/users', address]);
   }
-
 
 }

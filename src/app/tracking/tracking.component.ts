@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
 })
 
 export class TrackingComponent {
-  endedProposals?: any[];
+  endedCampaigns?: any[];
 
   constructor(
     private apiService: ApiService,
     private router: Router) {
-    this.endedProposals = [];
+    this.endedCampaigns = [];
   }
 
   ngOnInit(): void {
@@ -22,9 +22,9 @@ export class TrackingComponent {
   }
 
   getEndedProposals(): void {
-    this.apiService.getEndedProposals().subscribe({
+    this.apiService.getEndedCampaigns().subscribe({
       next: (response) => {
-        this.endedProposals = response;
+        this.endedCampaigns = response;
       },
       error: (error) =>  {
         console.error('Error fetching ended proposals:', error);
@@ -32,7 +32,7 @@ export class TrackingComponent {
     });
   }
 
-  proposalDetail(address: string): void {
+  campaignDetail(address: string): void {
     this.router.navigate(['/tracking', address]);
   }
 
