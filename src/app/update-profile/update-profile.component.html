@@ -36,4 +36,14 @@
     <button class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110" (click)="updateUser(inputRef1.value, inputRef2.value, inputRef3.value)">
         <b class="text-white">Update Profile</b>
     </button>
+
+    <div *ngIf="message">
+        <br/>
+        <div class="border-2 border-brand-primary-500 rounded-lg p-4 mt-8">
+            <br/>
+            <p>{{message}}</p>
+            <br/>
+        </div>
+        <br/>
+    </div>
 </div>

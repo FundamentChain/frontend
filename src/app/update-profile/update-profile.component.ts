@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { IpfsService } from '../services/ipfs.service';
+import { MetamaskService } from '../services/metamask.service';
 
 @Component({
   selector: 'app-update-profile',
@@ -15,21 +16,37 @@ export class UpdateProfileComponent {
   fileUrl: string | null = null;
   isImage = false;
 
+  // update confirmed
+  message = '';
+
   constructor(
     private UserService: UserService,
-    private ipfsService: IpfsService
+    private ipfsService: IpfsService,
+    private MetamaskService: MetamaskService
   ) {}
 
-  updateUser(
+  async updateUser(
     usermane: string,
     email: string,
     description: string
-  ) {
+  ): Promise<void> {
+    const wallet = await this.MetamaskService.currentAccountCorreta()
     this.UserService.putUpdateUser(
+      wallet ?? "", 
       usermane,
-      email,description,
+      email,
+      description,
       this.cid
-    )
+    ).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.message = 'Updated Successfully';
+      },
+      error: (error) => {
+        console.error(error);
+        this.message = 'Error on Update';
+      }
+    });
   }
 
   onFileSelected(event: any) {

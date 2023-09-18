@@ -12,8 +12,9 @@ export class ApiService {
   
   httpHeader = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json' 
     })
+    
   };
 
   constructor(private http: HttpClient) {}
@@ -56,7 +57,7 @@ export class ApiService {
       "amountRequested": amountRequested
     };
     console.log(body);
-    return this.http.post<string>(`${this.apiUrl}/campaigns/create`, body, this.httpHeader);
+    return this.http.post<any>(`${this.apiUrl}/campaigns/create`, body, this.httpHeader);
   }
 
   getUserByWallet(wallet: string): Observable<User> {

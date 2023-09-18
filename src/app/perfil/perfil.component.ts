@@ -28,6 +28,7 @@ export class PerfilComponent implements OnInit {
 
   async fetchUserData() {
     const wallet = await this.metamaskService.currentAccountCorreta();
+    console.log(wallet);
     if (wallet) {
       this.userService.getUserByWallet(wallet).subscribe({
         next: (data) => {
@@ -35,6 +36,7 @@ export class PerfilComponent implements OnInit {
           this.user = data
         },
         error: (error) => {
+          console.log(error);
           console.error("Failed to fetch user data:", error);
         }
       });

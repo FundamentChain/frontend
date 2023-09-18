@@ -11,7 +11,6 @@ import { MetamaskService } from '../services/metamask.service';
 export class CreateProposalComponent {
 
   // Transaction
-  finished = false;
   hash: string = '';
 
   // IPFS
@@ -40,16 +39,10 @@ export class CreateProposalComponent {
         Number(amountRequested)
       ).subscribe({
         next: (response) => {
-          if ([200, 201].includes(response.status)) {
-            this.finished = true;
-            this.hash = response;
-            console.log('Hash:', this.hash);
-          } else {
-            console.log('Unexpected status code:', response.status);
-          }
+          this.hash = response.message;
+          console.log('Hash:', this.hash);
         },
         error: (error) =>  {
-          this.finished = true;
           this.hash = "Error creating campaign";
           console.log('Error creating proposal:', error);
         }
