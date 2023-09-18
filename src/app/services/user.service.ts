@@ -27,6 +27,7 @@ export class UserService {
         const modifiedUsers = await Promise.all(users.map(async (user) => {
           const file = await this.ipfsService.retrieveFile(user.image);
           user.image = URL.createObjectURL(file);
+          console.log(user)
           return user;
         }));
         return modifiedUsers;
@@ -53,12 +54,14 @@ export class UserService {
 
     const wallet = await this.MetamaskService.currentAccountCorreta();
     
-    const body = {
+    const body = JSON.stringify({
       "usermane": usermane,
       "email": email,
       "description": description,
       "image": image,
-    };
+    });
+
+    console.log("Works")
 
     return this.http.put<string>(`${this.apiUrl}/users/update/${wallet}`, body, this.httpHeader);
 

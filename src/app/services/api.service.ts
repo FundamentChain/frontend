@@ -46,7 +46,7 @@ export class ApiService {
     description: string,
     endTime: number,
     amountRequested: number,
-  ): Observable<string> {
+  ): Observable<any> {
     const body = {
       "receiverAddress": receiverAddress,
       "ipfsCid": ipfsCid,

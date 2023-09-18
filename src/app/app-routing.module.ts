@@ -15,15 +15,15 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'perfil', component: PerfilComponent },
   { path: 'update-profile', component: UpdateProfileComponent },
-  { path: 'proposals', component: ProposalsComponent },
+  { path: 'campaigns', component: ProposalsComponent },
   { path: 'tracking', component: TrackingComponent },
   { path: 'tracking/:address', component: TrackingDetailComponent },
   { path: 'users', component: UsersListComponent },
   { path: 'users/:address', component: UsersDetailComponent },
-  { path: 'create-proposal', component: CreateProposalComponent },
-  { path: 'proposal-details/:address', component: ProposalDetailsComponent },
-  { path: '', redirectTo: '/proposals', pathMatch: 'full' },
-  { path: '**', redirectTo: '/proposals', pathMatch: 'full' },
+  { path: 'create-campaign', component: CreateProposalComponent },
+  { path: 'campaign-details/:address', component: ProposalDetailsComponent },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '**', redirectTo: '/dashboard', pathMatch: 'full' },
 ];
 
 @NgModule({

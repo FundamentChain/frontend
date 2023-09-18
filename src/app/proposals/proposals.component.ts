@@ -34,7 +34,7 @@ export class ProposalsComponent implements OnInit {
   }
 
   campaignDetail(address: string): void {
-    this.router.navigate(['/proposal-details', address]);
+    this.router.navigate(['/campaign-details', address]);
   }
 
   timestampToDate(timestamp: number): string {

@@ -26,6 +26,7 @@ export class UsersListComponent {
   async getUsers(): Promise<void> {
     this.UserService.getAllUsers().subscribe((data: any) => {
       this.users = data;
+      console.log(data);
     });
   }
 

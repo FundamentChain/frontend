@@ -40,14 +40,18 @@ export class CreateProposalComponent {
         Number(amountRequested)
       ).subscribe({
         next: (response) => {
-          this.finished = true;
-          this.hash = response;
-          console.error('Hash:', this.hash);
+          if ([200, 201].includes(response.status)) {
+            this.finished = true;
+            this.hash = response;
+            console.log('Hash:', this.hash);
+          } else {
+            console.log('Unexpected status code:', response.status);
+          }
         },
         error: (error) =>  {
           this.finished = true;
-          this.hash = error;
-          console.error('Error creating proposal:', error);
+          this.hash = "Error creating campaign";
+          console.log('Error creating proposal:', error);
         }
       });
     }
@@ -63,7 +67,7 @@ export class CreateProposalComponent {
     if (this.selectedFile) {
       this.ipfsService.uploadFile(this.selectedFile).subscribe(
         (cid) => {
-          this.cid = `File uploaded to IPFS with CID: ${cid}`;
+          this.cid = cid;
         },
         (error) => {
           this.cid = "Error uploading the file to IPFS";

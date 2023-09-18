@@ -41,7 +41,7 @@ export class UpdateProfileComponent {
     if (this.selectedFile) {
       this.ipfsService.uploadFile(this.selectedFile).subscribe(
         (cid) => {
-          this.cid = `File uploaded to IPFS with CID: ${cid}`;
+          this.cid = cid;
         },
         (error) => {
           this.cid = "Error uploading the file to IPFS";
