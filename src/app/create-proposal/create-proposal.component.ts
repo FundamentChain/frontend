@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { IpfsService } from '../services/ipfs.service';
 import { MetamaskService } from '../services/metamask.service';
+import { ContractServiceService } from '../services/contract-service.service';
 
 @Component({
   selector: 'app-create-proposal',
@@ -20,7 +21,8 @@ export class CreateProposalComponent {
   constructor (
     private apiService: ApiService, 
     private metamaskService: MetamaskService,
-    private ipfsService: IpfsService) {}
+    private ipfsService: IpfsService,
+    public contract: ContractServiceService) {}
 
   // Function to create a Campaign calling the backend API 
   async createProposal(
@@ -29,6 +31,7 @@ export class CreateProposalComponent {
     endTime: string,
     amountRequested: string,
     ): Promise<void> {
+      const amountInWEI = this.contract.convertToWEI(Number(amountRequested));
       const address = await this.metamaskService.currentAccountCorreta();
       this.apiService.postCreateCampaign(
         address,
@@ -36,7 +39,7 @@ export class CreateProposalComponent {
         title,
         description,
         Number(endTime),
-        Number(amountRequested)
+        amountInWEI
       ).subscribe({
         next: (response) => {
           this.hash = response.message;

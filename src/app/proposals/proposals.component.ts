@@ -1,6 +1,7 @@
 import { Component, OnInit, effect } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
+import { ContractServiceService } from '../services/contract-service.service';
 
 @Component({
   selector: 'proposals',
@@ -14,6 +15,7 @@ export class ProposalsComponent implements OnInit {
 
   constructor(
     private apiService: ApiService,
+    public contract: ContractServiceService,
     private router: Router) {
     this.openCampaigns = [];
   }

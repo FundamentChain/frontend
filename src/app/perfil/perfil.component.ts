@@ -55,6 +55,21 @@ export class PerfilComponent implements OnInit {
     });
   }
 
+  async createUser() {
+    const wallet = this.metamaskService.currentAccountCorreta();
+    if (wallet != null) {
+      this.userService.createUser(await this.metamaskService.currentAccountCorreta() ?? "").subscribe({
+        next: () => {
+          console.log("User created");
+          this.router.navigate(['/perfil']);
+        },
+        error: () => {
+          console.log("Error creationg user")
+        }
+      })
+    }
+  }
+
   campaignDetail(address: string): void {
     this.router.navigate(['/campaign-details', address]);
   }

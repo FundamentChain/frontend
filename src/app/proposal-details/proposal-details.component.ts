@@ -2,6 +2,7 @@ import { Component, effect } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api.service';
 import { ContractServiceService } from '../services/contract-service.service';
+import { MetamaskService } from '../services/metamask.service';
 
 @Component({
   selector: 'app-proposal-details',
@@ -10,14 +11,17 @@ import { ContractServiceService } from '../services/contract-service.service';
 })
 export class ProposalDetailsComponent {
 
+  // Campaign variables
   campaign?: any;
   contractAddress: any;
-  contractOpen: any = false; // campaign closed in contract
-  readyToClose: any = false;  // campaign ready to close 
+  contractOpen: any = false;
+  donationResult: string = "";
+  userDonations: string = "";
 
-  // variables to check when to close
+  // Close and time variable
+  readyToClose: any = false;
   missingBalance: any = 0;
-  countdown: string = ""; // campaign ended
+  countdown: string = "";
   countdownSeconds: number = 0;
   countdownEvent: any;
 
@@ -27,20 +31,21 @@ export class ProposalDetailsComponent {
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private contract: ContractServiceService) {
+    public contract: ContractServiceService,
+    private metamaskService: MetamaskService) {
   }
 
   async ngOnInit() {
     this.contractAddress = this.route.snapshot.paramMap.get('address') ?? "";
     this.getCampaignDetail(this.contractAddress);
+    this.getUserDonations();
   }
 
-  getCampaignDetail(address:string): void {
+  // Get information on the campaign (API)
+  getCampaignDetail(address: string): void {
     this.apiService.getCampaignDetail(address).subscribe({
       next: (response) => {
         this.campaign = response;
-
-        // set the rest of tasks 
         this.checkCloseByMaxBalance();
         this.updateCountdown();
         this.countdownEvent = setInterval(() => this.updateCountdown(), 1000);
@@ -51,41 +56,54 @@ export class ProposalDetailsComponent {
     });
   }
 
-  // Only visible if campaign is open
+  // Get the amount the user as donated (Contract)
+  async getUserDonations() {
+    try {
+      this.userDonations = await this.contract.userDonations(
+        this.contractAddress,
+        await this.metamaskService.currentAccountCorreta() ?? ""
+      );
+      console.log(this.userDonations);
+    } catch (error) {
+      console.error("Error fetching user donations:", error);
+    }
+  }
+  
+  // Donate to the campaign (Contract)
   async donate(amount: string) {
-    const amountNumber = BigInt(Number(amount));
+    const amountInWEI = BigInt(this.contract.convertToWEI(Number(amount)));
     this.checkCloseByMaxBalance();
     if (this.missingBalance == 0) {
-      return "Sorry, someone has donated, and the campaign reached its limit!";
+      this.donationResult =  "Sorry, someone has donated, and the campaign reached its limit!";
+      return this.donationResult;
     }
-    if (this.missingBalance < amountNumber) {
-      return "Sorry, someone has donated, and your donation amount exceeds the limit!";
+    if (this.missingBalance < amountInWEI) {
+      this.donationResult =  "Sorry, someone has donated, and your donation amount exceeds the limit!";
+      return this.donationResult;
     }
-    return this.contract.donate(this.contractAddress, amountNumber);
+    const hash = await this.contract.donate(this.contractAddress, amountInWEI);
+    this.donationResult = `Thank you for the donation, here is the transaction hash: ${hash}`;
+    return this.donationResult;
   }
 
-  // Triggered when button clicked
-  // Button enabled if countdown == 0 or this.missingBalance == 0
+  // Close campaign - Triggered by click (Contract)
   async closeCampaign() {
     const message = await this.contract.closeCampaign(this.contractAddress);
     if (message == "Closed Campaign Successfully") {
-      // get updated proposal
       this.apiService.putCloseCampaign(this.contractAddress);
     }
     return message;
   }
 
-  // Updates variables and returns true if donation can proceed
+  // Update variables related to close
   async checkCloseByMaxBalance(): Promise<void> {
     this.missingBalance = await this.contract.getMissingBalance(this.contractAddress);
-    // if (typeof this.missingBalance == 'string') {return 'Error'} // assert 
-
     this.raisedPercentage = Math.round(
       (this.campaign.amountRequested - this.missingBalance) 
       / this.campaign.amountRequested * 100);
     
     this.contractOpen = await this.contract.getCampaignOpen(this.contractAddress);
-    if (this.contractOpen){
+    if (this.contractOpen) {
       this.readyToClose = this.missingBalance == 0 || this.countdownSeconds <= 0;
     }
     else {
@@ -97,19 +115,19 @@ export class ProposalDetailsComponent {
     }
   }
 
-    // Countdown to bets closed
-    updateCountdown() {
-      this.countdownSeconds = Math.floor(Number(this.campaign.endTime) - Number(Date.now()) / 1000);
-      if (this.countdownSeconds <= 0) {
-        this.checkCloseByMaxBalance();
-        clearInterval(this.countdownEvent);
-      } else {
-        const days = Math.floor(this.countdownSeconds / 86400); // 86400 seconds in a day
-        const hours = Math.floor((this.countdownSeconds % 86400) / 3600);
-        const minutes = Math.floor((this.countdownSeconds % 3600) / 60);
-        const seconds = Math.floor(this.countdownSeconds % 60);
-        this.countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-      }
+  // Get time to campaign close
+  updateCountdown() {
+    this.countdownSeconds = Math.floor(Number(this.campaign.endTime) - Number(Date.now()) / 1000);
+    if (this.countdownSeconds <= 0) {
+      this.checkCloseByMaxBalance();
+      clearInterval(this.countdownEvent);
+    } else {
+      const days = Math.floor(this.countdownSeconds / 86400); // 86400 seconds in a day
+      const hours = Math.floor((this.countdownSeconds % 86400) / 3600);
+      const minutes = Math.floor((this.countdownSeconds % 3600) / 60);
+      const seconds = Math.floor(this.countdownSeconds % 60);
+      this.countdown = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }
+  }
 
 }

@@ -18,8 +18,8 @@
             <div class="h-full bg-brand-primary rounded-full" [style.width.%]="raisedPercentage"></div>
         </div>
         <div class="flex justify-between">
-            <span><b>Value Raised:</b> {{campaign.amountRequested - missingBalance}} </span>
-            <span><b>Value Requested:</b> {{campaign.amountRequested}}</span>
+            <span><b>Value Raised:</b> {{contract.convertToETH(campaign.amountRequested - missingBalance)}} </span>
+            <span><b>Value Requested:</b> {{contract.convertToETH(campaign.amountRequested)}}</span>
         </div>
         <br/>
         <br/>
@@ -40,7 +40,7 @@
                 <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
                     <b>Amount Requested</b>
                     <br/>
-                    {{campaign.amountRequested}}
+                    {{contract.convertToETH(campaign.amountRequested)}}
                 </div> 
                 <div class="bg-brand-background w-full mb-10 p-3 text-center rounded-lg">
                     <b>Reciever Address</b>
@@ -63,12 +63,22 @@
         <div *ngIf="contractOpen">
             <div class="flex" *ngIf="!readyToClose">
                 <div class="w-1/2 p-5">
-                  <input type="text" #inputRef1 class="w-full px-3 py-2 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" placeholder="Amount to donate">
+                  <input type="text" #inputRef1 class="w-full px-3 py-2 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" placeholder="Amount to donate (ETH)">
                 </div>
                 <div class="w-1/2 p-5">
                   <button (click)="donate(inputRef1.value)" class="w-full block text-center rounded bg-brand-secondary p-5 text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110"><b>Donate</b></button>
                 </div>
             </div> 
+
+            <div *ngIf="donationResult">
+                <br/>
+                <div class="border-2 border-brand-primary-500 rounded-lg p-4 mt-8">
+                    <br/>
+                    <p>{{donationResult}}</p>
+                    <br/>
+                </div>
+                <br/>
+            </div>
 
             <div class="w-1/2 p-5" *ngIf="readyToClose">
                 <button (click)="closeCampaign()" class="w-full block text-center rounded bg-brand-secondary p-5 text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110"><b>Close Campaign</b></button>

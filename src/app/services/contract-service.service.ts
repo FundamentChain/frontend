@@ -1,7 +1,6 @@
 import { Injectable, effect } from '@angular/core';
 import { ethers } from 'ethers';
 import { MetamaskService } from '../services/metamask.service';
-import { AlchemyService } from '../services/alchemy.service';
 import donationPlatform from "../../assets/contracts/DonationPlatformContract.json";
 import donationContract from "../../assets/contracts/DonationContract.json"
 
@@ -21,13 +20,12 @@ export class ContractServiceService {
   proposalContract = new ethers.Contract("", donationContract.abi, this.signer);
 
   constructor (
-    private metamaskService: MetamaskService,
-    private alchemyService: AlchemyService) {
-
+    private metamaskService: MetamaskService) {
       effect(async () => {
         const campaignCreator =  await this.platformContract.CAMPAIGN_CREATOR()
         this.hasRole = await this.platformContract.hasRole(campaignCreator, this.signer._address);
-      });
+      }
+    );
   }
 
   async donate(proposalAddress: string, amount: bigint): Promise<string> {
@@ -37,10 +35,21 @@ export class ContractServiceService {
       await tx.wait();
       console.log("Transaction hash:", tx.hash);
       return tx.hash;
+    }
+    catch (error) {
+      console.error("Error:", error);
+      return "Error. Inssuficient Funds or Excceded amout Requested"
+    }
+  }
+
+  async userDonations(proposalAddress: string, userAddress: string): Promise<string> {
+    try {
+      const contract = this.proposalContract.attach(proposalAddress);
+      return await contract.donations(userAddress).toString();
     } 
     catch (error) {
       console.error("Error:", error);
-      return "Error. Inssuficient Funds or Excceded amout Requested "
+      return "Error fetching user donations."
     }
   }
 
@@ -55,7 +64,6 @@ export class ContractServiceService {
       return "Cant be closed yet";
     }
   }
-
 
   async getCampaignOpen(proposalAddress: string): Promise<boolean | string> {
     try {
@@ -74,6 +82,14 @@ export class ContractServiceService {
     catch {
         return "Error. Probaly invalid address"
     }
+  }
+
+  convertToETH(amount: number) {
+    return Number(ethers.utils.formatUnits(amount.toString(), "ether"));
+  }
+
+  convertToWEI(amount: number) {
+    return Number(ethers.utils.parseEther(amount.toString()));
   }
 
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { IpfsService } from '../services/ipfs.service';
 import { MetamaskService } from '../services/metamask.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-profile',
@@ -22,7 +23,8 @@ export class UpdateProfileComponent {
   constructor(
     private UserService: UserService,
     private ipfsService: IpfsService,
-    private MetamaskService: MetamaskService
+    private MetamaskService: MetamaskService,
+    private router: Router
   ) {}
 
   async updateUser(
@@ -39,8 +41,8 @@ export class UpdateProfileComponent {
       this.cid
     ).subscribe({
       next: (response) => {
-        console.log(response);
         this.message = 'Updated Successfully';
+        this.router.navigate(['/perfil']);
       },
       error: (error) => {
         console.error(error);

@@ -23,8 +23,8 @@ export class UserService {
     return this.http.get<any[]>(`${this.apiUrl}/users`).pipe(
       switchMap(async (users: any[]) => {
         const modifiedUsers = await Promise.all(users.map(async (user) => {
-          //const file = await this.ipfsService.retrieveFile(user.image);
-          //user.image = URL.createObjectURL(file);
+          const file = await this.ipfsService.retrieveFile(user.image);
+          user.image = URL.createObjectURL(file);
           console.log(user)
           return user;
         }));
@@ -36,8 +36,8 @@ export class UserService {
   getUserByWallet(wallet: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/users/search/${wallet}`).pipe(
       switchMap(async (user: any) => {
-        //const file = await this.ipfsService.retrieveFile(user.image);
-        //user.image = URL.createObjectURL(file);
+        const file = await this.ipfsService.retrieveFile(user.image);
+        user.image = URL.createObjectURL(file);
         return user;
       })
     );
@@ -58,6 +58,12 @@ export class UserService {
     };
     return this.http.put<any>(`${this.apiUrl}/users/update/${wallet}`, body, this.httpHeader);
   }
+
+  createUser(wallet: string): Observable<any> {
+    const body = { "address": wallet};
+    return this.http.post<any>(`${this.apiUrl}/users/create`, body, this.httpHeader);
+  }
+  
 
 }
 

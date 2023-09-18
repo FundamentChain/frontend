@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
+import { ContractServiceService } from '../services/contract-service.service';
 
 @Component({
   selector: 'app-tracking',
@@ -13,6 +14,7 @@ export class TrackingComponent {
 
   constructor(
     private apiService: ApiService,
+    public contract: ContractServiceService,
     private router: Router) {
     this.endedCampaigns = [];
   }

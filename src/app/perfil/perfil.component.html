@@ -52,9 +52,9 @@
 
     <div *ngIf="!user">
       <br/>
-      <a routerLink="update-profile" class="w-[80%] m-auto block text-center rounded py-5 my-5 bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
+      <button (click)="createUser()"  class="w-[80%] m-auto block text-center rounded py-5 my-5 bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110">
         <b class="text-white">Create profile</b>
-      </a>
+      </button>
       <br/>
     </div>
   </div>

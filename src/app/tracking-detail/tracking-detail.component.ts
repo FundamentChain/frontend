@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../services/api.service';
+import { ContractServiceService } from '../services/contract-service.service';
 
 @Component({
   selector: 'app-tracking-detail',
@@ -9,11 +10,12 @@ import { ApiService } from '../services/api.service';
 })
 export class TrackingDetailComponent {
 
-  proposal?: any;
+  campaign?: any;
   contractAddress: any;
 
   constructor(
     private route: ActivatedRoute,
+    public contract: ContractServiceService,
     private apiService: ApiService) {
   }
 
@@ -25,10 +27,10 @@ export class TrackingDetailComponent {
   getCampaignDetail(address:string): void {
     this.apiService.getCampaignDetail(address).subscribe({
       next: (response: any) => {
-        this.proposal = response;
+        this.campaign = response;
       },
       error: (error: any) =>  {
-        console.error('Error fetching ended proposals:', error);
+        console.error('Error fetching ended campaigns:', error);
       }
     });
   }
