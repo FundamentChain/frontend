@@ -25,7 +25,6 @@ export class UserService {
         const modifiedUsers = await Promise.all(users.map(async (user) => {
           const file = await this.ipfsService.retrieveFile(user.image);
           user.image = URL.createObjectURL(file);
-          console.log(user)
           return user;
         }));
         return modifiedUsers;

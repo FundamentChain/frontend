@@ -63,7 +63,6 @@ export class ProposalDetailsComponent {
         this.contractAddress,
         await this.metamaskService.currentAccountCorreta() ?? ""
       );
-      console.log(this.userDonations);
     } catch (error) {
       console.error("Error fetching user donations:", error);
     }
