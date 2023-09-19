@@ -45,16 +45,16 @@ export class ApiService {
     ipfsCid: string | null,
     title: string,
     description: string,
-    endTime: number,
     amountRequested: number,
+    endTime: number,
   ): Observable<any> {
     const body = {
       "receiverAddress": receiverAddress,
       "ipfsCid": ipfsCid,
       "title": title,
       "description": description,
-      "endTime": endTime,
-      "amountRequested": amountRequested
+      "amountRequested": amountRequested,
+      "endTime": endTime
     };
     console.log(body);
     return this.http.post<any>(`${this.apiUrl}/campaigns/create`, body, this.httpHeader);

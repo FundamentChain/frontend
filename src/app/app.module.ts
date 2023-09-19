@@ -16,7 +16,11 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { UsersDetailComponent } from './users-detail/users-detail.component';
 
 @NgModule({
-  declarations: [AppComponent, PerfilComponent, ProposalsComponent, CreateProposalComponent, ProposalDetailsComponent, DashboardComponent, TrackingComponent, TrackingDetailComponent, UpdateProfileComponent, UsersListComponent, UsersDetailComponent],
+  declarations: [
+    AppComponent, PerfilComponent, ProposalsComponent, CreateProposalComponent, 
+    ProposalDetailsComponent, DashboardComponent, TrackingComponent, TrackingDetailComponent, 
+    UpdateProfileComponent, UsersListComponent, UsersDetailComponent
+  ],
   imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,8 +1,12 @@
 import { Injectable, effect } from '@angular/core';
 import { ethers } from 'ethers';
 import { MetamaskService } from '../services/metamask.service';
-import donationPlatform from "../../assets/contracts/DonationPlatformContract.json";
+import donationPlatform from "../../assets/contracts/DonationPlatform.json";
 import donationContract from "../../assets/contracts/DonationContract.json"
+
+const DONATION_PLATFORM_CONTRACT = "0xa4a9A13c7D6Db21A03E66CA2Ca550238350DC3c5"
+const DONATION_CONTRACT_EXAMPLE = "0x9B2d64F9659BEce540BB1741537dbcADcaD85394"
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +23,10 @@ export class ContractServiceService {
 
   // platform contract 
   hasRole: boolean = false;
-  platformContract = new ethers.Contract("0xc7005540F6288bc97E85dE5BF7b8cAab79B9A9F9", donationPlatform.abi, this.signer);
+  platformContract = new ethers.Contract(DONATION_PLATFORM_CONTRACT, donationPlatform.abi, this.signer);
   
   // proposal contract 
-  proposalContract = new ethers.Contract("", donationContract.abi, this.signer);
+  proposalContract = new ethers.Contract(DONATION_CONTRACT_EXAMPLE, donationContract.abi, this.signer);
   donationAmount: number  = 0;
 
   constructor (

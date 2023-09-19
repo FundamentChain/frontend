@@ -39,8 +39,8 @@ export class CreateProposalComponent {
         this.cid,
         title,
         description,
-        this.createTimestamp(date, hour),
-        amountInWEI
+        amountInWEI,
+        this.createTimestamp(date, hour)
       ).subscribe({
         next: (response) => {
           this.hash = response.message;
