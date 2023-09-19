@@ -14,10 +14,14 @@ export class ContractServiceService {
   currentChainId = this.metamaskService.currentChainId;
   currentAccount = this.metamaskService.currentAccount;
   balance = this.metamaskService.balance;
-  hasRole: boolean = false;
 
+  // platform contract 
+  hasRole: boolean = false;
   platformContract = new ethers.Contract("0xc7005540F6288bc97E85dE5BF7b8cAab79B9A9F9", donationPlatform.abi, this.signer);
+  
+  // proposal contract 
   proposalContract = new ethers.Contract("", donationContract.abi, this.signer);
+  donationAmount: number  = 0;
 
   constructor (
     private metamaskService: MetamaskService) {
@@ -28,6 +32,19 @@ export class ContractServiceService {
     );
   }
 
+  async closeCampaign(proposalAddress: string): Promise<string> {
+    try {
+      const contract = this.proposalContract.attach(proposalAddress);
+      const tx = await contract.closeCampaign();
+      return "Closed Campaign Successfully"
+    } 
+    catch (error) {
+      console.error("Error:", error);
+      return "Cant be closed yet";
+    }
+  }
+
+  // Campaign Contract 
   async donate(proposalAddress: string, amount: bigint): Promise<string> {
     try {
       const contract = this.proposalContract.attach(proposalAddress);
@@ -44,24 +61,11 @@ export class ContractServiceService {
 
   async userDonations(proposalAddress: string, userAddress: string): Promise<string> {
     try {
-      const contract = this.proposalContract.attach(proposalAddress);
-      return await contract.donations(userAddress).toString();
+      return await this.proposalContract.attach(proposalAddress).donations(userAddress).toString();
     } 
     catch (error) {
       console.error("Error:", error);
       return "Error fetching user donations."
-    }
-  }
-
-  async closeCampaign(proposalAddress: string): Promise<string> {
-    try {
-      const contract = this.proposalContract.attach(proposalAddress);
-      const tx = await contract.closeCampaign();
-      return "Closed Campaign Successfully"
-    } 
-    catch (error) {
-      console.error("Error:", error);
-      return "Cant be closed yet";
     }
   }
 
@@ -84,6 +88,7 @@ export class ContractServiceService {
     }
   }
 
+  // utils 
   convertToETH(amount: number) {
     return Number(ethers.utils.formatUnits(amount.toString(), "ether"));
   }
