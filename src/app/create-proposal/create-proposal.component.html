@@ -1,4 +1,3 @@
-
 <br/>
 <div class="m-auto bg-white text-center">
 
@@ -9,12 +8,21 @@
 
     <div class="w-[50%] m-auto">
         
-        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef1 placeholder="Campaign Title">
-        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef2 placeholder="Description">
-        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef3 placeholder="Amount requested in ETH">
-        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef4 placeholder="Timestamp"> 
-
-        <br/>
+        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef1 required placeholder="Campaign Title">
+        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef2 required placeholder="Description">
+        <input class="w-full px-3 py-2 mb-5 placeholder-gray-400 text-gray-700 h-[6vh] border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent" #inputRef3 required placeholder="Amount requested in ETH">
+        <div class="bg-white p-4 rounded-lg border-2 border-brand-primary-500">
+            <div class="flex flex-wrap -mx-2">
+                <div class="w-1/2 px-2 mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Closing date:</label>
+                    <input type="date" #inputRef4 class="block w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div class="w-1/2 px-2 mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Closing Time:</label>
+                    <input type="time" #inputRef5 class="block w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+                </div>
+            </div>
+        </div>
 
         <div class="border-2 border-brand-primary-500 rounded-lg p-4 mt-8">
             <p>Append files to your campaign</p>
@@ -46,7 +54,7 @@
 
     </div>
 
-    <button class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110" (click)="createProposal(inputRef1.value, inputRef2.value, inputRef4.value, inputRef3.value)">
+    <button class="w-full block text-center rounded py-5 my-5 bg-brand-secondary text-white hover:bg-brand-primary transition-transform duration-500 ease-in-out transform hover:scale-110" (click)="createProposal(inputRef1.value, inputRef2.value, inputRef3.value, inputRef4.value, inputRef5.value)">
         <b class="text-white">Create Proposal</b>
     </button>
 

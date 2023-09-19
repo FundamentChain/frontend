@@ -16,6 +16,8 @@ export class ContractServiceService {
   balance = this.metamaskService.balance;
 
   // platform contract 
+
+  // platform contract 
   hasRole: boolean = false;
   platformContract = new ethers.Contract("0xc7005540F6288bc97E85dE5BF7b8cAab79B9A9F9", donationPlatform.abi, this.signer);
   
@@ -61,7 +63,8 @@ export class ContractServiceService {
 
   async userDonations(proposalAddress: string, userAddress: string): Promise<string> {
     try {
-      return await this.proposalContract.attach(proposalAddress).donations(userAddress).toString();
+      const contract = this.proposalContract.attach(proposalAddress);
+      return await contract.donations(userAddress).toString();
     } 
     catch (error) {
       console.error("Error:", error);

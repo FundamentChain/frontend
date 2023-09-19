@@ -34,8 +34,7 @@ export class AppComponent {
   constructor(
     private userService: UserService,
     private metamaskService: MetamaskService,
-    private alchemyService: AlchemyService,
-    private ipfsService: IpfsService
+    private alchemyService: AlchemyService
   ) {
 
     this.hasMetamask = metamaskService.checkMetamaskAvailability();

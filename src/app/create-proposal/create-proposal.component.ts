@@ -28,8 +28,9 @@ export class CreateProposalComponent {
   async createProposal(
     title: string,
     description: string,
-    endTime: string,
     amountRequested: string,
+    date: string,
+    hour: string
     ): Promise<void> {
       const amountInWEI = this.contract.convertToWEI(Number(amountRequested));
       const address = await this.metamaskService.currentAccountCorreta();
@@ -38,7 +39,7 @@ export class CreateProposalComponent {
         this.cid,
         title,
         description,
-        Number(endTime),
+        this.createTimestamp(date, hour),
         amountInWEI
       ).subscribe({
         next: (response) => {
@@ -71,6 +72,26 @@ export class CreateProposalComponent {
       );
     } else {
       this.cid = "Please select a file";
+    }
+  }
+
+  // Function to get timestamp from date
+  createTimestamp(
+    date: string,
+    hour: string): number {
+    try {
+      const dateParts = date.split("-");
+      const year = parseInt(dateParts[0], 10);
+      const month = parseInt(dateParts[1], 10);
+      const day = parseInt(dateParts[2], 10);
+        
+      const timeParts = hour.split(":");
+      const hours = parseInt(timeParts[0], 10);
+      const minutes = parseInt(timeParts[1], 10);
+      return Number(new Date(year, month - 1, day, hours, minutes).getTime() / 1000);
+    } catch (error: any) {
+        console.error("Error:", error.message);
+        return -1
     }
   }
 
